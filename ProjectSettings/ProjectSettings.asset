@@ -454,7 +454,7 @@ PlayerSettings:
   vrEditorSettings: {}
   cloudServicesEnabled:
     Build: 1
-    Collab: 1
+    Collab: 0
     UNet: 1
   cloudProjectId: ae7243e7-9cc2-46dc-bdfe-6192312b07bd
   projectName: GlobalGameJam2017
