@@ -12,7 +12,7 @@ namespace Gameplay.Managers
 	public class ClassRoomManager : SingletonMonoBehaviour<ClassRoomManager>
 	{
 		[SerializeField]
-		public GameOptionsConstants GameOptions;
+		public GameOptions GameOptions;
 
 		[SerializeField]
 		public TeacherDoor Door;
@@ -24,6 +24,14 @@ namespace Gameplay.Managers
 		private bool gameIsRunning;
 
 		private Coroutine doorRoutine;
+
+		protected override void Awake()
+		{
+			base.Awake ();
+			// todo move to a betta position, mon
+			Init ();
+			StartGame ();
+		}
 
 
 		public void Init()
@@ -62,18 +70,27 @@ namespace Gameplay.Managers
 				&& CurrentGameState != GameStateEnum.GameEnd)
 			{
 				// wait for sensei
-				yield return new WaitForSeconds (CurrentDoorDelay);
+				float time = CurrentDoorDelay;
+				Debug.Log ("wait for sensei: " + time);
+				yield return new WaitForSeconds (time);
 
 				// play knock knock sound
-				yield return new WaitForSeconds (CurrentTimeToOpenDoor);
 				Door.KnockKnock ();
+				time = CurrentTimeToOpenDoor;
+				Debug.Log ("wait for open: " + time);
+				yield return new WaitForSeconds (time);
 
 				// open door
+				Debug.Log ("open door");
 				CurrentGameState = GameStateEnum.DoorOpen;
-				yield return new WaitForSeconds (CurrentTimeToCloseDoor);
 				Door.OpenDoor ();
 
+				time = CurrentTimeToCloseDoor;
+				Debug.Log ("wait for close: " + time);
+				yield return new WaitForSeconds (time);
+
 				// close door
+				Debug.Log ("close door");
 				CurrentGameState = GameStateEnum.DoorClosed;
 				Door.CloseDoor ();
 			}

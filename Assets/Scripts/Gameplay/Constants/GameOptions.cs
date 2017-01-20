@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace Gameplay.Constants
 {
-	public class GameOptionsConstants : ScriptableObject
+	[CreateAssetMenu(fileName="GameOptions", menuName="Config/GameOptions", order = 1)]
+	public class GameOptions : ScriptableObject
 	{
 		[SerializeField]
 		public int NumberOfKids = 10;
