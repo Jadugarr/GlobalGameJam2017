@@ -18,7 +18,7 @@ namespace Assets.Scripts.AI
             {
                 NavMeshHit hit;
 
-                if (NavMesh.SamplePosition(value, out hit, 5f, NavMesh.GetAreaFromName("Walkable")))
+                if (NavMesh.SamplePosition(value, out hit, 5f, NavMesh.AllAreas))
                 {
                     targetPosition = hit.position;
                     navAgent.SetDestination(targetPosition);
