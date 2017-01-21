@@ -77,7 +77,6 @@ namespace Gameplay.Player
 				cooldownTimeStamp = Time.realtimeSinceStartup + shoutCooldownDuration * heldDownFactor;
 
 				shoutStrength = 0f;
-
 				ShockwaveParticles.Stop ();
 			}
 		}
