@@ -1,35 +1,71 @@
 ﻿using System;
 using Common;
 using UnityEngine;
-using AssemblyCSharp;
 
 namespace Gameplay.Managers
 {
 	public class AudioManager : SingletonMonoBehaviour<AudioManager>
 	{
 		[SerializeField]
-		protected AudioOptions AudioOptions;
+		private AudioSource KnockKnockSound;
+
+		[SerializeField]
+		private AudioSource OpenDoorSound;
+
+		[SerializeField]
+		public AudioSource CloseDoorSound;
+
+		[SerializeField]
+		private AudioSource BellSound;
+
+		[SerializeField]
+		private AudioSource BeforeGameAtmosphereSound;
+
+		[SerializeField]
+		private AudioSource ChalkSound;
+
+		public void Chalk()
+		{
+			Play (ChalkSound);
+		}
+
+		public void BeforeGameAtmosphere( bool enabled )
+		{
+			Play (BeforeGameAtmosphereSound, enabled);
+		}
+
+		public void Bell()
+		{
+			Play (BellSound);
+		}
 
 		public void KnockKnock()
 		{
-			Play (AudioOptions.KnockKnockSound);
+			Play (KnockKnockSound);
 		}
 
 		public void OpenDoor()
 		{
-			Play (AudioOptions.OpenDoorSound);
+			Play (OpenDoorSound);
 		}
 
 		public void CloseDoor()
 		{
-			Play(AudioOptions.CloseDoorSound);
+			Play(CloseDoorSound);
 		}
 
-		private void Play( AudioSource sound)
+		private void Play( AudioSource sound, bool soundOn = true)
 		{
 			if( sound != null)
 			{
-				sound.Play();
+				if(soundOn)
+				{
+					sound.Play();
+				}
+				else
+				{
+					sound.Stop ();
+				}
 			}
 			else
 			{

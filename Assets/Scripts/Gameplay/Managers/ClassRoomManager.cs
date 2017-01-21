@@ -24,6 +24,8 @@ namespace Gameplay.Managers
 		[SerializeField]
 		public PlayerMovement PlayerMovement;
 
+		private EventManager EventManager = EventManager.Instance;
+
 		public GameStateEnum CurrentGameState { get; private set;}
 
 		private int currentKidCount;
@@ -45,6 +47,8 @@ namespace Gameplay.Managers
 			CameraManager.Instance.LookAtBlackBoard ( true );
 			CurrentGameState = GameStateEnum.BeforeGame;
 			initialKidCount = GameOptions.NumberOfKids;
+
+			AudioManager.Instance.BeforeGameAtmosphere (true);
 		}
 
 		public void StartGame()
@@ -56,6 +60,8 @@ namespace Gameplay.Managers
 			doorRoutine = StartCoroutine (DoorRoutine());
 			clockRoutine = StartCoroutine (ClockRoutine());
 			PlayerMovement.Enabled = true;
+
+			AudioManager.Instance.BeforeGameAtmosphere (false);
 
 			// set camera
 			CameraManager.Instance.FollowPlayer ();
@@ -113,6 +119,7 @@ namespace Gameplay.Managers
 				Clock.SetTimeRatio ( passedTime / duration );
 			}
 
+			AudioManager.Instance.Bell ();
 			EndGame ();
 		}
 		#endregion
