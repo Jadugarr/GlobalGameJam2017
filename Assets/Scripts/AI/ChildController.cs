@@ -116,7 +116,7 @@ namespace Assets.Scripts.AI
 			{
 				childAi.Behaviour = ChildBehaviourEnum.Scared;
 
-				Vector3 newTarget = childAi.transform.position + 1f * (childAi.transform.position - player.transform.position);
+				Vector3 newTarget = childAi.transform.position + 2f * (childAi.transform.position - player.transform.position);
 				newTarget.y = childAi.transform.position.y;
 
 				NavMeshHit hit;

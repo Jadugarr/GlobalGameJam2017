@@ -3810,7 +3810,9 @@ Prefab:
       propertyPath: StunParticles
       value: 
       objectReference: {fileID: 1322141797}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 136813176774999814, guid: 9b4849e7645546341b96a2a53fc8c323, type: 2}
+    - {fileID: 208308852376179482, guid: 9b4849e7645546341b96a2a53fc8c323, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 9b4849e7645546341b96a2a53fc8c323, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &1760907676 stripped
