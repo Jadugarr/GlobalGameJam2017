@@ -55,6 +55,9 @@ namespace Gameplay.Constants
 
 	    [SerializeField]
         public int startingBullies;
+
+	    [SerializeField]
+        public float WinCutsceneDuration;
 	}
 }
 

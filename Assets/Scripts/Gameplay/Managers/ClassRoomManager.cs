@@ -100,16 +100,36 @@ namespace Gameplay.Managers
 
             eventManager.RemoveFromEvent(EventTypes.PlayerHit, OnPlayerHit);
             eventManager.RemoveFromEvent(EventTypes.KidHitHazard, OnKidHit);
-
-			bool isWinning = (currentKidCount == 0);
         }
 
 		public void KillKid()
 		{
 			currentKidCount--;
+
+		    if (currentKidCount <= 0)
+		    {
+		        EndGame();
+		        StartCoroutine(WinCutscene());
+		    }
 		}
 
-		public float AliveKidRatio
+        private IEnumerator WinCutscene()
+        {
+            float timer = GameOptions.WinCutsceneDuration;
+            Door.OpenDoor();
+            CameraManager.Instance.LookAtDoor();
+
+            while (timer >= 0)
+            {
+                timer -= Time.deltaTime;
+                yield return 0;
+            }
+
+            Door.CloseDoor();
+            CameraManager.Instance.LookAtBlackBoard();
+        }
+
+        public float AliveKidRatio
 		{
 			get{ return (float) currentKidCount / initialKidCount;}
 		}
