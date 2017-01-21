@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 4ab25eef058f35e4fae2e113cd142e2d
+timeCreated: 1485004936
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DJB CHALK IT UP
+  fontNames:
+  - DJB CHALK IT UP
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

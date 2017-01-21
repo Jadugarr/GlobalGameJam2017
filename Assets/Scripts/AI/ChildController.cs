@@ -116,6 +116,7 @@ namespace Assets.Scripts.AI
 			{
 				childAi.Behaviour = ChildBehaviourEnum.Scared;
 
+				// todo: make sure the position is within the play area
 				Vector3 newTarget = childAi.transform.position + 2f * (childAi.transform.position - player.transform.position);
 				newTarget.y = childAi.transform.position.y;
 
@@ -123,14 +124,8 @@ namespace Assets.Scripts.AI
 				if (NavMesh.SamplePosition(newTarget, out hit, 1f, NavMesh.AllAreas))
 				{
 					args.ScaredKidAI.TargetPosition = hit.position;
-					Debug.Log ("kid scared:" + childAi.transform.position.x + ", " +childAi.transform.position.z + " -> " + newTarget.x + ", " + newTarget.z);
 				}
-				else
-				{
-					Debug.Log ("kid NOT scared:" + childAi.transform.position.x + ", " +childAi.transform.position.z + " -> " + newTarget.x + ", " + newTarget.z);
-
-				}
-			}
+			}			
 
             ActivateBullies();
         }
