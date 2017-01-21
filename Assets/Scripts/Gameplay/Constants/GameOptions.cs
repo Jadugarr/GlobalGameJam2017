@@ -35,6 +35,9 @@ namespace Gameplay.Constants
 
 		[SerializeField]
 		public float GameDuration = 300f;
+
+	    [SerializeField]
+        public float StunDuration = 3f;
 	}
 }
 

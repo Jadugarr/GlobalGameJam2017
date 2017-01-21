@@ -41,6 +41,18 @@ namespace Assets.Scripts.AI
         void Update()
         {
             CheckInput();
+            UpdateBullies();
+        }
+
+        private void UpdateBullies()
+        {
+            if (bulliesActivated)
+            {
+                foreach (ChildAI childAi in bullies)
+                {
+                    childAi.TargetPosition = player.transform.position;
+                }
+            }
         }
 
         private void CheckInput()
@@ -81,6 +93,16 @@ namespace Assets.Scripts.AI
             }
         }
 
+        private void DeactivateBullies()
+        {
+            bulliesActivated = false;
+
+            foreach (ChildAI childAi in bullies)
+            {
+                SetRandomPosition(childAi);
+            }
+        }
+
         private void OnKidScared(IEvent evtArgs)
         {
             ActivateBullies();
@@ -93,8 +115,7 @@ namespace Assets.Scripts.AI
             if (args.ChildAI.ChildType == ChildType.Bully && bulliesActivated)
             {
                 eventManager.FireEvent(EventTypes.PlayerHit, new PlayerHitArgs());
-                bulliesActivated = false;
-                SetRandomPosition(args.ChildAI);
+                DeactivateBullies();
             }
             else
             {

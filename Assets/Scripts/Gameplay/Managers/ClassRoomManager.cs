@@ -29,6 +29,7 @@ namespace Gameplay.Managers
 		private int currentKidCount;
 		private int initialKidCount;
 		private bool gameIsRunning;
+        private EventManager eventManager = EventManager.Instance;
 
 		private Coroutine doorRoutine;
 		private Coroutine clockRoutine;
@@ -60,6 +61,9 @@ namespace Gameplay.Managers
 
 			// set camera
 			CameraManager.Instance.FollowPlayer (PlayerMovement.transform);
+
+            //Add event listeners
+            eventManager.RegisterForEvent(EventTypes.PlayerHit, OnPlayerHit);
 		}
 
 		public void EndGame()
@@ -75,7 +79,9 @@ namespace Gameplay.Managers
 			StopCoroutine (clockRoutine);
 
 			PlayerMovement.Enabled = false;
-		}
+
+            eventManager.RemoveFromEvent(EventTypes.PlayerHit, OnPlayerHit);
+        }
 
 		public void KillKid()
 		{
@@ -86,6 +92,11 @@ namespace Gameplay.Managers
 		{
 			get{ return (float) currentKidCount / initialKidCount;}
 		}
+
+	    private void OnPlayerHit(IEvent evtArgs)
+	    {
+	        StartCoroutine(StunRoutine());
+	    }
 
 		#region Clock
 		private IEnumerator ClockRoutine()
@@ -157,7 +168,25 @@ namespace Gameplay.Managers
 				return UnityEngine.Random.Range (GameOptions.MinTimeToCloseDoor, GameOptions.MaxTimeToCloseDoor);
 			}
 		}
-		#endregion
-	}
+        #endregion
+
+	    #region Stun
+
+	    private IEnumerator StunRoutine()
+	    {
+	        float stunTimer = GameOptions.StunDuration;
+	        PlayerMovement.Enabled = false;
+
+	        while (stunTimer > 0f)
+	        {
+	            stunTimer -= Time.deltaTime;
+	            yield return 0;
+	        }
+
+	        PlayerMovement.Enabled = true;
+	    }
+
+	    #endregion
+    }
 }
 
