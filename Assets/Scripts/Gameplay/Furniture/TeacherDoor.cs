@@ -1,7 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Gameplay.Managers;
-using UnityEditor.Animations;
 
 namespace Gameplay.Furniture
 {
