@@ -38,6 +38,15 @@ namespace Gameplay.Constants
 
 	    [SerializeField]
         public float StunDuration = 3f;
+
+		[SerializeField]
+		public float ShoutHoldDuration = 3f;
+
+		[SerializeField]
+		public float ShoutFadeoutDuration = 2f;
+
+		[SerializeField]
+		public float ShoutCooldownDuration = 2f;
 	}
 }
 
