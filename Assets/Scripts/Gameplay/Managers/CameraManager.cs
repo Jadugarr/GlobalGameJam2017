@@ -166,8 +166,6 @@ namespace Gameplay.Managers
 			}
 			cameraToPlayerAngle = Mathf.Clamp (cameraToPlayerAngle, -MaxAngle, MaxAngle);
 
-			Debug.Log (cameraToPlayerAngle);
-
 			Vector3 camAngle = new Vector3 {
 				x = MainCamera.rotation.eulerAngles.x,
 				y = cameraToPlayerAngle,
@@ -175,11 +173,6 @@ namespace Gameplay.Managers
 			};
 
 			MainCamera.rotation = Quaternion.Lerp ( MainCamera.rotation, Quaternion.Euler (camAngle), Smoothing * Time.deltaTime);
-
-			//MainCamera.Rotate (cameraToPlayerAngle * Vector3.up);
-
-			//cameraPosition = TiltAxis.position + Distance * (TiltAxis.position - target.position).normalized;
-			//MoveToTarget ();
 		}
 
 

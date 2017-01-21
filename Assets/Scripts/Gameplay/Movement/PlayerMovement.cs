@@ -25,6 +25,9 @@ namespace Gameplay.Movement
 		[SerializeField]
 		protected ParticleSystem StunParticles;
 
+		[SerializeField]
+		protected Animator PlayerAnimator;
+
 		// move and look
 		private Vector3 movementForce = Vector3.zero;
 		private Quaternion targetRotation;
@@ -48,8 +51,14 @@ namespace Gameplay.Movement
 		protected void FixedUpdate()
 		{
 			if (!CanMove)
+			{
+				PlayerAnimator.SetBool ( "Walking", false);
 				return;
-			
+			}
+
+			PlayerAnimator.SetBool ( "Walking", movementForce.magnitude > 0.05f);
+
+			//PlayerAnimator.SetFloat ( "Speed", movementForce.magnitude);
 			Controller.Move (movementForce);
 		}
 
