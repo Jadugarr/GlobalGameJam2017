@@ -32,6 +32,9 @@ namespace Gameplay.Constants
 
 		[SerializeField]
 		public float MaxTimeToCloseDoor = 5f;
+
+		[SerializeField]
+		public float GameDuration = 300f;
 	}
 }
 

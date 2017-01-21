@@ -17,6 +17,9 @@ namespace Gameplay.Managers
 		[SerializeField]
 		public TeacherDoor Door;
 
+		[SerializeField]
+		public Clock Clock;
+
 		public GameStateEnum CurrentGameState { get; private set;}
 
 		private int currentKidCount;
@@ -24,6 +27,8 @@ namespace Gameplay.Managers
 		private bool gameIsRunning;
 
 		private Coroutine doorRoutine;
+		private Coroutine clockRoutine;
+		private float startTimeStamp;
 
 		protected override void Awake()
 		{
@@ -33,24 +38,33 @@ namespace Gameplay.Managers
 			StartGame ();
 		}
 
-
 		public void Init()
 		{
 			CurrentGameState = GameStateEnum.BeforeGame;
 			initialKidCount = GameOptions.NumberOfKids;
-			currentKidCount = GameOptions.NumberOfKids;
 		}
 
 		public void StartGame()
 		{
+			currentKidCount = GameOptions.NumberOfKids;
 			CurrentGameState = GameStateEnum.DoorClosed;
+			startTimeStamp = Time.realtimeSinceStartup;
+
 			doorRoutine = StartCoroutine (DoorRoutine());
+			clockRoutine = StartCoroutine (ClockRoutine());
 		}
 
 		public void EndGame()
 		{
+			// close door if it is still open
+			if(CurrentGameState == GameStateEnum.DoorOpen)
+			{
+				Door.CloseDoor();
+			}
+
 			CurrentGameState = GameStateEnum.GameEnd;
 			StopCoroutine (doorRoutine);
+			StopCoroutine (clockRoutine);
 		}
 
 		public void KillKid()
@@ -63,11 +77,28 @@ namespace Gameplay.Managers
 			get{ return (float) currentKidCount / initialKidCount;}
 		}
 
+		#region Clock
+		private IEnumerator ClockRoutine()
+		{
+			float duration = GameOptions.GameDuration;
+			float passedTime = 0;
+
+			while (passedTime < duration) 
+			{
+				yield return new WaitForSeconds (1f);
+
+				passedTime = Time.realtimeSinceStartup - startTimeStamp;
+				Clock.SetTimeRatio ( passedTime / duration );
+			}
+
+			EndGame ();
+		}
+		#endregion
+
 		#region Door
 		private IEnumerator DoorRoutine()
 		{
-			while(CurrentGameState != GameStateEnum.BeforeGame
-				&& CurrentGameState != GameStateEnum.GameEnd)
+			while(true)
 			{
 				// wait for sensei
 				float time = CurrentDoorDelay;

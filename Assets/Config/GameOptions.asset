@@ -20,3 +20,4 @@ MonoBehaviour:
   EndTimeToOpenDoor: 0.7
   MinTimeToCloseDoor: 2
   MaxTimeToCloseDoor: 5
+  GameDuration: 10

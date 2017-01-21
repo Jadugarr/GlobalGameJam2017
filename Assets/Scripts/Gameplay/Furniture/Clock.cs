@@ -11,9 +11,10 @@ namespace Gameplay.Furniture
 		[SerializeField]
 		protected Transform SecondPointer;
 
-		public void SetTimeRatio( float ratio)
+		public void SetTimeRatio( float ratio )
 		{
-			
+			SecondPointer.localRotation = Quaternion.AngleAxis (-360f * ratio, Vector3.up);
+			MinutePointer.localRotation = Quaternion.AngleAxis (-30f * ratio, Vector3.up);
 		}
 	}
 }
