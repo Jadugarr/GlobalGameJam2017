@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using Assets.Scripts.Input;
+using Common;
 using Gameplay.Movement;
 using Input.Constants;
 using UnityEngine;
@@ -21,6 +22,12 @@ namespace Input.Managers
 		[SerializeField]
 		protected Shout Shout;
 
+	    private AudioClip microphoneRecording;
+
+	    void Awake()
+	    {
+	    }
+
 		protected void Update()
 		{
 			if(ClassRoomManager.CurrentGameState == GameStateEnum.BeforeGame && UnityEngine.Input.GetButtonDown (InputConstants.A_BUTTON))
@@ -33,16 +40,25 @@ namespace Input.Managers
 			}
 			else
 			{
-				if (!Shout.IsShouting && !Shout.IsOnCooldown && UnityEngine.Input.GetButton (InputConstants.A_BUTTON)) 
-				{
-					Shout.StartShout ();
-				}
-				else if (Shout.IsShouting && UnityEngine.Input.GetButtonUp (InputConstants.A_BUTTON)) 
-				{
-					Shout.EndShout ();
-				}
+                if (!Shout.IsShouting && !Shout.IsOnCooldown && MicInput.MicLoudness > 0.05f)
+                {
+                    Shout.StartShout();
+                }
+                else if (Shout.IsShouting && MicInput.MicLoudness <= 0.05f)
+                {
+                    Shout.EndShout();
+                }
 
-				if(Shout.IsShouting && ClassRoomManager.CurrentGameState == GameStateEnum.DoorOpen)
+                //if (!Shout.IsShouting && !Shout.IsOnCooldown && UnityEngine.Input.GetButton (InputConstants.A_BUTTON)) 
+                //{
+                //	Shout.StartShout ();
+                //}
+                //else if (Shout.IsShouting && UnityEngine.Input.GetButtonUp (InputConstants.A_BUTTON)) 
+                //{
+                //	Shout.EndShout ();
+                //}
+
+                if (Shout.IsShouting && ClassRoomManager.CurrentGameState == GameStateEnum.DoorOpen)
 				{
 					ClassRoomManager.CaughtByTeacher ();
 				}

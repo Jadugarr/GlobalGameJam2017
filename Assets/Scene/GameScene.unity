@@ -3548,6 +3548,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1960467305}
   - component: {fileID: 1960467306}
+  - component: {fileID: 1960467307}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -3583,6 +3584,18 @@ MonoBehaviour:
   PlayerMovement: {fileID: 997685154}
   ClassRoomManager: {fileID: 2088492082}
   Shout: {fileID: 853029482}
+--- !u!114 &1960467307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1960467304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bcf983ceca3d744c95a8e7b343e0328, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentMicLoudness: 0
 --- !u!1001 &1997577592
 Prefab:
   m_ObjectHideFlags: 0
