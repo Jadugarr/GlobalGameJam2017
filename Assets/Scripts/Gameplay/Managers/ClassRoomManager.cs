@@ -6,6 +6,7 @@ using System.Collections;
 using UnityEngine.Events;
 using Gameplay.Enums;
 using Gameplay.Furniture;
+using Gameplay.Movement;
 
 namespace Gameplay.Managers
 {
@@ -19,6 +20,9 @@ namespace Gameplay.Managers
 
 		[SerializeField]
 		public Clock Clock;
+
+		[SerializeField]
+		public PlayerMovement PlayerMovement;
 
 		public GameStateEnum CurrentGameState { get; private set;}
 
@@ -52,6 +56,7 @@ namespace Gameplay.Managers
 
 			doorRoutine = StartCoroutine (DoorRoutine());
 			clockRoutine = StartCoroutine (ClockRoutine());
+			PlayerMovement.Enabled = true;
 		}
 
 		public void EndGame()
@@ -65,6 +70,8 @@ namespace Gameplay.Managers
 			CurrentGameState = GameStateEnum.GameEnd;
 			StopCoroutine (doorRoutine);
 			StopCoroutine (clockRoutine);
+
+			PlayerMovement.Enabled = false;
 		}
 
 		public void KillKid()

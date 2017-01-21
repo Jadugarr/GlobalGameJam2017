@@ -255,6 +255,7 @@ MonoBehaviour:
   LookRotationSmoothing: 0.2
   WalkToLookThreshold: 180
   Controller: {fileID: 141077604}
+  Enabled: 0
 --- !u!23 &141077603
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -912,7 +913,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 12
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 136201974216771680, guid: 216774ef07c397b48a4fcf7779dc1c1a, type: 2}
+    - {fileID: 135511744157991966, guid: 216774ef07c397b48a4fcf7779dc1c1a, type: 2}
+    - {fileID: 65144064761443112, guid: 216774ef07c397b48a4fcf7779dc1c1a, type: 2}
+    - {fileID: 65524757873443236, guid: 216774ef07c397b48a4fcf7779dc1c1a, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 216774ef07c397b48a4fcf7779dc1c1a, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1335567231
@@ -1314,6 +1319,7 @@ MonoBehaviour:
   GameOptions: {fileID: 11400000, guid: ce90488032fdb0c4b8c1b7502a5ceb30, type: 2}
   Door: {fileID: 1937464291}
   Clock: {fileID: 365452705}
+  PlayerMovement: {fileID: 141077602}
 --- !u!1 &2119183278
 GameObject:
   m_ObjectHideFlags: 0

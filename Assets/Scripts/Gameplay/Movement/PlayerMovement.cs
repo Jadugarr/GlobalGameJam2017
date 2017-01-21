@@ -21,8 +21,10 @@ namespace Gameplay.Movement
 
 		// move and look
 		private Vector3 movementForce = Vector3.zero;
-		private Quaternion _targetRotation;
+		private Quaternion targetRotation;
 		private Quaternion lookDirection;
+
+		public bool Enabled = false;
 
 		// edge grabbing
 		public bool IsGrabbingEdge{ get; private set; }
@@ -35,6 +37,9 @@ namespace Gameplay.Movement
 
 		protected void FixedUpdate()
 		{
+			if (!Enabled)
+				return;
+			
 			Controller.Move (movementForce);
 		}
 		#endregion
@@ -42,8 +47,11 @@ namespace Gameplay.Movement
 		#region Input-controlled
 		public void Walk( float horizontal, float vertical )
 		{
+			if (!Enabled)
+				return;
+			
 			// calculate speed
-			float angleDiff = Quaternion.Angle (Controller.transform.localRotation, _targetRotation);
+			float angleDiff = Quaternion.Angle (Controller.transform.localRotation, targetRotation);
 			float rotationWalkSpeedFactor = 1f - angleDiff / WalkToLookThreshold;
 
 			// only start walking if we somewhat look in the correct direction
@@ -56,6 +64,9 @@ namespace Gameplay.Movement
 
 		public void Look( float horizontal, float vertical )
 		{
+			if (!Enabled)
+				return;
+			
 			if (horizontal != 0 || vertical != 0) 
 			{
 				float targetAngle = Mathf.Acos (vertical / Mathf.Sqrt ( horizontal * horizontal + vertical * vertical )) * 180f / Mathf.PI;
@@ -63,11 +74,11 @@ namespace Gameplay.Movement
 				{
 					targetAngle *= -1;
 				}
-				_targetRotation = Quaternion.AngleAxis (targetAngle, Vector3.up);
+				targetRotation = Quaternion.AngleAxis (targetAngle, Vector3.up);
 			}
 
 			// slowly rotate towards the desired direction
-			lookDirection = Quaternion.Lerp ( Controller.transform.localRotation, _targetRotation, LookRotationSmoothing);
+			lookDirection = Quaternion.Lerp ( Controller.transform.localRotation, targetRotation, LookRotationSmoothing);
 			Controller.transform.localRotation = lookDirection;
 		}
 		#endregion
