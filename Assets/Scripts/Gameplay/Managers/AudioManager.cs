@@ -24,6 +24,9 @@ namespace Gameplay.Managers
 		[SerializeField]
 		private AudioSource ChalkSound;
 
+		[SerializeField]
+		private AudioSource TeacherCaughtSound;
+
 		public void Chalk()
 		{
 			Play (ChalkSound);
@@ -32,6 +35,11 @@ namespace Gameplay.Managers
 		public void BeforeGameAtmosphere( bool enabled )
 		{
 			Play (BeforeGameAtmosphereSound, enabled);
+		}
+
+		public void TeacherCaught()
+		{
+			Play (TeacherCaughtSound);
 		}
 
 		public void Bell()

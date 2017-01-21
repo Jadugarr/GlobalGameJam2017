@@ -41,6 +41,11 @@ namespace Input.Managers
 				{
 					Shout.EndShout ();
 				}
+
+				if(Shout.IsShouting && ClassRoomManager.CurrentGameState == GameStateEnum.DoorOpen)
+				{
+					ClassRoomManager.CaughtByTeacher ();
+				}
 			}
 		}
 

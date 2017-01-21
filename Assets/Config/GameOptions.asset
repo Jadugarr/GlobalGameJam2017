@@ -20,7 +20,7 @@ MonoBehaviour:
   EndTimeToOpenDoor: 0.7
   MinTimeToCloseDoor: 2
   MaxTimeToCloseDoor: 5
-  GameDuration: 1000
+  GameDuration: 20
   StunDuration: 3
   ShoutHoldDuration: 0.5
   ShoutFadeoutDuration: 1

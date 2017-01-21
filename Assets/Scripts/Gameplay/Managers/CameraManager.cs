@@ -1,6 +1,7 @@
 ﻿using System;
 using Common;
 using UnityEngine;
+using System.Collections;
 
 namespace Gameplay.Managers
 {
@@ -31,6 +32,27 @@ namespace Gameplay.Managers
 		[SerializeField]
 		protected Transform DoorTarget;
 
+		[SerializeField]
+		protected Transform ClockPosition;
+
+		[SerializeField]
+		protected Transform ClockTarget;
+
+		[SerializeField]
+		protected Transform TeacherTarget;
+
+		[SerializeField]
+		protected Transform TeacherPosition;
+
+		[SerializeField]
+		protected float TeacherTilt1;
+
+		[SerializeField]
+		protected float TeacherTilt2;
+
+		[SerializeField]
+		protected float TeacherTilt3;
+
 		private Transform target;
 		private Vector3 cameraPosition;
 
@@ -42,7 +64,7 @@ namespace Gameplay.Managers
 			{
 				Follow ();
 			}
-			else
+			else// if(!isDoingTeacherSequence)
 			{
 				MoveToTarget ();
 			}
@@ -56,12 +78,36 @@ namespace Gameplay.Managers
 
 		public void LookAtBlackBoard( bool instant = false)
 		{
-			SetCameraPosition (BlackBoardTarget, BlackBoardPosition.position);
-			if(instant)
-			{
-				MainCamera.position = BlackBoardPosition.position;
-				MainCamera.rotation = Quaternion.LookRotation(BlackBoardTarget.position - MainCamera.position);
-			}
+			SetCameraPosition (BlackBoardTarget, BlackBoardPosition.position, instant);
+		}
+
+		public void LookAtClock()
+		{
+			SetCameraPosition (ClockTarget, ClockPosition.position);
+		}
+
+		public void LookAtTeacherCaught()
+		{
+			StartCoroutine (TeacherCaughtRoutine());
+		}
+
+		private IEnumerator TeacherCaughtRoutine()
+		{
+			Vector3 camPos = TeacherPosition.position;
+			SetCameraPosition (TeacherTarget, camPos, true);
+			SetTilt (TeacherTilt1);
+
+			yield return new WaitForSeconds (0.65f);
+			camPos = TeacherPosition.position + 0.33f * (TeacherTarget.position - TeacherPosition.position);
+			SetCameraPosition (TeacherTarget, camPos, true);
+			SetTilt (TeacherTilt2);
+
+			yield return new WaitForSeconds (0.6f);
+			camPos = TeacherPosition.position + 0.63f * (TeacherTarget.position - TeacherPosition.position);
+			SetCameraPosition (TeacherTarget, camPos, true);
+			SetTilt (TeacherTilt3);
+
+			yield return new WaitForSeconds (1.5f);
 		}
 
 		public void LookAtDoor()
@@ -69,11 +115,22 @@ namespace Gameplay.Managers
 			SetCameraPosition (DoorTarget, MainCamera.position);
 		}
 
-		private void SetCameraPosition(Transform target, Vector3 cameraPosition)
+		private void SetTilt( float tilt)
+		{
+			
+		}
+
+		private void SetCameraPosition(Transform target, Vector3 cameraPosition, bool instant = false)
 		{
 			this.target = target;
 			this.cameraPosition = cameraPosition;
 			isFollowingPlayer = false;
+
+			if(instant)
+			{
+				MainCamera.position = cameraPosition;
+				MainCamera.rotation = Quaternion.LookRotation(target.position - MainCamera.position);
+			}
 		}
 
 		private void MoveToTarget()

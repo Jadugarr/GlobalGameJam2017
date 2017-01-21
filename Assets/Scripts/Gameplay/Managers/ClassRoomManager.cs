@@ -24,13 +24,12 @@ namespace Gameplay.Managers
 		[SerializeField]
 		public PlayerMovement PlayerMovement;
 
-		private EventManager EventManager = EventManager.Instance;
-
 		public GameStateEnum CurrentGameState { get; private set;}
 
 		private int currentKidCount;
 		private int initialKidCount;
 		private bool gameIsRunning;
+
         private EventManager eventManager = EventManager.Instance;
 
 		private Coroutine doorRoutine;
@@ -53,6 +52,9 @@ namespace Gameplay.Managers
 
 		public void StartGame()
 		{
+			// close door if it is still open
+			Door.CloseDoor();
+
 			currentKidCount = GameOptions.NumberOfKids;
 			CurrentGameState = GameStateEnum.DoorClosed;
 			startTimeStamp = Time.realtimeSinceStartup;
@@ -66,24 +68,25 @@ namespace Gameplay.Managers
 			// set camera
 			CameraManager.Instance.FollowPlayer ();
 
-            //Add event listeners
+            // add event listeners
             eventManager.RegisterForEvent(EventTypes.PlayerHit, OnPlayerHit);
+			eventManager.FireEvent (EventTypes.GameStart, null);
+		}
+
+		public void CaughtByTeacher()
+		{
+			AudioManager.Instance.TeacherCaught();
+			CameraManager.Instance.LookAtTeacherCaught ();
+			EndGame ();
 		}
 
 		public void EndGame()
 		{
-			// close door if it is still open
-			if(CurrentGameState == GameStateEnum.DoorOpen)
-			{
-				Door.CloseDoor();
-			}
-
 			CurrentGameState = GameStateEnum.GameEnd;
 			StopCoroutine (doorRoutine);
 			StopCoroutine (clockRoutine);
 
 			PlayerMovement.Enabled = false;
-			CameraManager.Instance.LookAtBlackBoard ();
 
             eventManager.RemoveFromEvent(EventTypes.PlayerHit, OnPlayerHit);
 
@@ -120,6 +123,7 @@ namespace Gameplay.Managers
 			}
 
 			AudioManager.Instance.Bell ();
+			CameraManager.Instance.LookAtClock ();
 			EndGame ();
 		}
 		#endregion
