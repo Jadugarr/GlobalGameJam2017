@@ -11,7 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4677c3db021c39e4991d5a40692791ad, type: 3}
   m_Name: GameOptions
   m_EditorClassIdentifier: 
-  NumberOfKids: 10
   StartMinDelay: 5
   StartMaxDelay: 10
   EndMinDelay: 1
@@ -27,5 +26,5 @@ MonoBehaviour:
   ShoutCooldownDuration: 1
   scaredSpeed: 7
   defaultSpeed: 3.5
-  startingRegularChildren: 4
+  startingRegularChildren: 8
   startingBullies: 2

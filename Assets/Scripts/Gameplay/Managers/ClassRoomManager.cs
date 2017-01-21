@@ -70,8 +70,16 @@ namespace Gameplay.Managers
 
             // add event listeners
             eventManager.RegisterForEvent(EventTypes.PlayerHit, OnPlayerHit);
+            eventManager.RegisterForEvent(EventTypes.KidHitHazard, OnKidHit);
+
+
 			eventManager.FireEvent (EventTypes.GameStart, null);
 		}
+
+	    private void OnKidHit(IEvent evtArgs)
+	    {
+	        KillKid();
+	    }
 
 		public void CaughtByTeacher()
 		{
@@ -89,6 +97,7 @@ namespace Gameplay.Managers
 			PlayerMovement.Enabled = false;
 
             eventManager.RemoveFromEvent(EventTypes.PlayerHit, OnPlayerHit);
+            eventManager.RemoveFromEvent(EventTypes.KidHitHazard, OnKidHit);
 
 			bool isWinning = (currentKidCount == 0);
         }
