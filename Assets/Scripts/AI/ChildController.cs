@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Event;
+﻿using System.Collections.Generic;
+using Assets.Scripts.Event;
 using UnityEngine;
 using UnityEngine.AI;
 using AI.Enums;
@@ -8,13 +9,7 @@ namespace Assets.Scripts.AI
     public class ChildController : MonoBehaviour
     {
         [SerializeField]
-        private ChildAI[] regularChildren;
-
-        [SerializeField]
-        private ChildAI[] bullies;
-
-        [SerializeField]
-        private GameObject[] testWayPoints;
+        private List<ChildAI> children;
 
         [SerializeField]
         private MeshRenderer movementPlane;
@@ -26,11 +21,15 @@ namespace Assets.Scripts.AI
         private EventManager eventManager = EventManager.Instance;
         private bool bulliesActivated = false;
 
+        private List<ChildAI> activeBullies = new List<ChildAI>(2);
+        private List<ChildAI> killedChildren = new List<ChildAI>(6);
+
         private void Awake()
         {
             movementBounds = movementPlane.bounds;
             eventManager.RegisterForEvent(EventTypes.KidReachedDestination, OnKidReachedDestination);
             eventManager.RegisterForEvent(EventTypes.KidScared, OnKidScared);
+            eventManager.RegisterForEvent(EventTypes.KidHitHazard, OnKidHitHazard);
         }
 
         private void Start()
@@ -42,6 +41,7 @@ namespace Assets.Scripts.AI
         {
             eventManager.RemoveFromEvent(EventTypes.KidReachedDestination, OnKidReachedDestination);
             eventManager.RemoveFromEvent(EventTypes.KidScared, OnKidScared);
+            eventManager.RemoveFromEvent(EventTypes.KidHitHazard, OnKidHitHazard);
         }
 
         void Update()
@@ -55,7 +55,7 @@ namespace Assets.Scripts.AI
         {
             if (bulliesActivated)
             {
-                foreach (ChildAI childAi in bullies)
+                foreach (ChildAI childAi in activeBullies)
                 {
                     childAi.TargetPosition = player.transform.position;
                 }
@@ -72,21 +72,9 @@ namespace Assets.Scripts.AI
 
         private void ActivateChildren()
         {
-            foreach (ChildAI child in regularChildren)
+            foreach (ChildAI child in children)
             {
                 SetRandomPosition(child);
-            }
-
-            foreach (ChildAI childAi in bullies)
-            {
-                if (bulliesActivated)
-                {
-                    childAi.TargetPosition = player.transform.position;
-                }
-                else
-                {
-                    SetRandomPosition(childAi);
-                }
             }
         }
 
@@ -94,10 +82,18 @@ namespace Assets.Scripts.AI
         {
             bulliesActivated = true;
 
-            foreach (ChildAI childAi in bullies)
+            foreach (ChildAI childAi in children)
             {
-				childAi.Behaviour = ChildBehaviourEnum.Aggroed;
-                childAi.TargetPosition = player.transform.position;
+                if (childAi.ChildType == ChildType.Bully && childAi.Behaviour != ChildBehaviourEnum.Scared)
+                {
+                    childAi.Behaviour = ChildBehaviourEnum.Aggroed;
+                    childAi.TargetPosition = player.transform.position;
+
+                    if (activeBullies.Contains(childAi) == false)
+                    {
+                        activeBullies.Add(childAi);
+                    }
+                }
             }
         }
 
@@ -105,37 +101,74 @@ namespace Assets.Scripts.AI
         {
             bulliesActivated = false;
 
-            foreach (ChildAI childAi in bullies)
+            foreach (ChildAI childAi in activeBullies)
             {
+                childAi.Behaviour = ChildBehaviourEnum.Walking;
                 SetRandomPosition(childAi);
             }
+
+            activeBullies.Clear();
+        }
+
+        private void OnKidHitHazard(IEvent evtArgs)
+        {
+            KidHitHazardArgs args = (KidHitHazardArgs) evtArgs;
+
+            if (children.Contains(args.ChildAi))
+            {
+                children.Remove(args.ChildAi);
+            }
+
+            Destroy(args.ChildAi.gameObject);
         }
 
         private void OnKidScared(IEvent evtArgs)
         {
 			KidScaredArgs args = (KidScaredArgs)evtArgs;
 			ChildAI childAi = args.ScaredKidAI;
-			bool isScared = childAi.IsScared( player.transform, args.ShoutStrength);
+            if (childAi.Behaviour != ChildBehaviourEnum.Scared)
+            {
+                bool isScared = childAi.IsScared(player.transform, args.ShoutStrength);
 
-			if(isScared)
-			{
-				childAi.Behaviour = ChildBehaviourEnum.Scared;
+                if (isScared)
+                {
+                    childAi.Behaviour = ChildBehaviourEnum.Scared;
+                    
+                    Vector3 newTarget = childAi.transform.position + 2f * (childAi.transform.position - player.transform.position);
+                    newTarget.y = childAi.transform.position.y;
 
-				// todo: make sure the position is within the play area
-				Vector3 newTarget = childAi.transform.position + 2f * (childAi.transform.position - player.transform.position);
-				newTarget.y = childAi.transform.position.y;
+                    SetPosition(childAi, newTarget);
 
-			    args.ScaredKidAI.TargetPosition = FindNextPosOnNavMesh(newTarget);
-			}			
+                    if (childAi.ChildType == ChildType.Bully)
+                    {
+                        DeactivateBully(childAi, ChildBehaviourEnum.Scared);
+                    }
+                }
+                ActivateBullies();
+            }
+        }
 
-            ActivateBullies();
+        private void DeactivateBully(ChildAI child, ChildBehaviourEnum behaviour)
+        {
+            if (activeBullies.Contains(child))
+            {
+                activeBullies.Remove(child);
+                child.Behaviour = behaviour;
+
+                if (activeBullies.Count == 0)
+                {
+                    bulliesActivated = false;
+                    Debug.Log("All Bullies deactivated");
+                }
+                Debug.Log("Bully deactivated");
+            }
         }
 
         private void OnKidReachedDestination(IEvent eventArgs)
         {
             KidReachedDestinationArgs args = (KidReachedDestinationArgs) eventArgs;
 
-            if (args.ChildAI.ChildType == ChildType.Bully && bulliesActivated)
+            if (args.ChildAI.ChildType == ChildType.Bully && activeBullies.Contains(args.ChildAI))
             {
                 eventManager.FireEvent(EventTypes.PlayerHit, new PlayerHitArgs());
                 DeactivateBullies();
@@ -145,6 +178,7 @@ namespace Assets.Scripts.AI
                 SetRandomPosition(args.ChildAI);
             }
 
+            args.ChildAI.Behaviour = ChildBehaviourEnum.Walking;
         }
 
         private void SetRandomPosition(ChildAI child)
