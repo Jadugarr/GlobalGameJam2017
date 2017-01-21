@@ -256,6 +256,7 @@ MonoBehaviour:
   LookRotationSmoothing: 0.2
   WalkToLookThreshold: 180
   Controller: {fileID: 141077604}
+  CameraTransform: {fileID: 2013347076}
   Enabled: 0
 --- !u!23 &141077603
 MeshRenderer:

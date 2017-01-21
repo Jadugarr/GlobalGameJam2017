@@ -19,6 +19,9 @@ namespace Gameplay.Movement
 		[SerializeField]
 		protected CharacterController Controller = null;
 
+		[SerializeField]
+		protected Transform CameraTransform;
+
 		// move and look
 		private Vector3 movementForce = Vector3.zero;
 		private Quaternion targetRotation;
@@ -60,6 +63,11 @@ namespace Gameplay.Movement
 				movementForce.x = WalkSpeed * horizontal * rotationWalkSpeedFactor;
 				movementForce.z = WalkSpeed * vertical * rotationWalkSpeedFactor;
 			}
+			Vector3 cameraDirection = CameraTransform.rotation.eulerAngles;
+			cameraDirection.x = 0;
+			cameraDirection.z = 0;
+
+			movementForce = Quaternion.Euler (cameraDirection) * movementForce;
 		}
 
 		public void Look( float horizontal, float vertical )
