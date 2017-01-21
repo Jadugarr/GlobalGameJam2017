@@ -68,11 +68,6 @@ namespace Assets.Scripts.AI
             {
                 ActivateChildren();
             }
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Return))
-            {
-                OnKidScared(new KidScaredArgs());
-            }
         }
 
         private void ActivateChildren()
@@ -129,17 +124,7 @@ namespace Assets.Scripts.AI
 				Vector3 newTarget = childAi.transform.position + 2f * (childAi.transform.position - player.transform.position);
 				newTarget.y = childAi.transform.position.y;
 
-				NavMeshHit hit;
-				if (NavMesh.SamplePosition(newTarget, out hit, 1f, NavMesh.AllAreas))
-				{
-					args.ScaredKidAI.TargetPosition = hit.position;
-					Debug.Log ("kid scared:" + childAi.transform.position.x + ", " +childAi.transform.position.z + " -> " + newTarget.x + ", " + newTarget.z);
-				}
-				else
-				{
-					Debug.Log ("kid NOT scared:" + childAi.transform.position.x + ", " +childAi.transform.position.z + " -> " + newTarget.x + ", " + newTarget.z);
-
-				}
+			    args.ScaredKidAI.TargetPosition = FindNextPosOnNavMesh(newTarget);
 			}
 
             ActivateBullies();
@@ -164,16 +149,28 @@ namespace Assets.Scripts.AI
         private void SetRandomPosition(ChildAI child)
         {
             Vector3 newTarget = new Vector3(Random.Range(movementBounds.min.x, movementBounds.max.x), 1f, Random.Range(movementBounds.min.z, movementBounds.max.z));
+            child.TargetPosition = FindNextPosOnNavMesh(newTarget);
+        }
+
+        private void SetPosition(ChildAI child, Vector3 targetPosition)
+        {
+            child.TargetPosition = FindNextPosOnNavMesh(targetPosition);
+        }
+
+        private Vector3 FindNextPosOnNavMesh(Vector3 targetPosition)
+        {
             NavMeshHit hit;
             float range = 0f;
             do
             {
                 range++;
-                if (NavMesh.SamplePosition(newTarget, out hit, range, NavMesh.AllAreas))
+                if (NavMesh.SamplePosition(targetPosition, out hit, range, NavMesh.AllAreas))
                 {
-                    child.TargetPosition = hit.position;
+                    return hit.position;
                 }
             } while (!hit.hit);
+
+            return Vector3.zero;
         }
     }
 }
