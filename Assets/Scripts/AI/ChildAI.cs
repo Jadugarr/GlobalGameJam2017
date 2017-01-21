@@ -6,6 +6,9 @@ namespace Assets.Scripts.AI
 {
     public class ChildAI : MonoBehaviour
     {
+        [SerializeField]
+        private ChildType childType;
+
         private Vector3 targetPosition;
         private float distance = 2f;
 
@@ -21,16 +24,16 @@ namespace Assets.Scripts.AI
             }
         }
 
+        public ChildType ChildType
+        {
+            get { return childType; }
+        }
+
         private NavMeshAgent navAgent;
 
         void Awake()
         {
             navAgent = GetComponent<NavMeshAgent>();
-        }
-
-        void OnDestroy()
-        {
-            
         }
 
         void Update()
@@ -43,22 +46,6 @@ namespace Assets.Scripts.AI
                     {
                         ChildAI = this
                     });
-                }
-            }
-        }
-
-        void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.Equals(this.gameObject))
-            {
-                return;
-            }
-
-            if ((other.gameObject.CompareTag("Child") || other.gameObject.CompareTag("Player")))
-            {
-                if (targetPosition != Vector3.zero)
-                {
-                    navAgent.SetDestination(targetPosition);
                 }
             }
         }

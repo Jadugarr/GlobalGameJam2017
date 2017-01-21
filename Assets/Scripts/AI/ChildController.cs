@@ -7,7 +7,10 @@ namespace Assets.Scripts.AI
     public class ChildController : MonoBehaviour
     {
         [SerializeField]
-        private ChildAI[] children;
+        private ChildAI[] regularChildren;
+
+        [SerializeField]
+        private ChildAI[] bullies;
 
         [SerializeField]
         private GameObject[] testWayPoints;
@@ -15,18 +18,24 @@ namespace Assets.Scripts.AI
         [SerializeField]
         private MeshRenderer movementPlane;
 
+        [SerializeField]
+        private GameObject player;
+
         private Bounds movementBounds;
         private EventManager eventManager = EventManager.Instance;
+        private bool bulliesActivated = false;
 
         private void Awake()
         {
             movementBounds = movementPlane.bounds;
             eventManager.RegisterForEvent(EventTypes.KidReachedDestination, OnKidReachedDestination);
+            eventManager.RegisterForEvent(EventTypes.KidScared, OnKidScared);
         }
 
         void OnDestroy()
         {
             eventManager.RemoveFromEvent(EventTypes.KidReachedDestination, OnKidReachedDestination);
+            eventManager.RemoveFromEvent(EventTypes.KidScared, OnKidScared);
         }
 
         void Update()
@@ -38,18 +47,60 @@ namespace Assets.Scripts.AI
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
             {
-                foreach (ChildAI child in children)
+                foreach (ChildAI child in regularChildren)
                 {
                     SetRandomPosition(child);
                 }
+
+                foreach (ChildAI childAi in bullies)
+                {
+                    if (bulliesActivated)
+                    {
+                        childAi.TargetPosition = player.transform.position;
+                    }
+                    else
+                    {
+                        SetRandomPosition(childAi);
+                    }
+                }
             }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Return))
+            {
+                OnKidScared(new KidScaredArgs());
+            }
+        }
+
+        private void ActivateBullies()
+        {
+            bulliesActivated = true;
+
+            foreach (ChildAI childAi in bullies)
+            {
+                childAi.TargetPosition = player.transform.position;
+            }
+        }
+
+        private void OnKidScared(IEvent evtArgs)
+        {
+            ActivateBullies();
         }
 
         private void OnKidReachedDestination(IEvent eventArgs)
         {
             KidReachedDestinationArgs args = (KidReachedDestinationArgs) eventArgs;
 
-            SetRandomPosition(args.ChildAI);
+            if (args.ChildAI.ChildType == ChildType.Bully && bulliesActivated)
+            {
+                eventManager.FireEvent(EventTypes.PlayerHit, new PlayerHitArgs());
+                bulliesActivated = false;
+                SetRandomPosition(args.ChildAI);
+            }
+            else
+            {
+                SetRandomPosition(args.ChildAI);
+            }
+
         }
 
         private void SetRandomPosition(ChildAI child)

@@ -5,7 +5,9 @@ using System.Collections.Generic;
 public enum EventTypes
 {
 	KidHit,
-    KidReachedDestination
+    KidReachedDestination,
+    PlayerHit,
+    KidScared
 }
 
 /// <summary>
