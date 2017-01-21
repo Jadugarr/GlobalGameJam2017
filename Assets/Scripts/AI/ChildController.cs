@@ -33,6 +33,11 @@ namespace Assets.Scripts.AI
             eventManager.RegisterForEvent(EventTypes.KidScared, OnKidScared);
         }
 
+        private void Start()
+        {
+            ActivateChildren();
+        }
+
         void OnDestroy()
         {
             eventManager.RemoveFromEvent(EventTypes.KidReachedDestination, OnKidReachedDestination);
@@ -61,27 +66,32 @@ namespace Assets.Scripts.AI
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
             {
-                foreach (ChildAI child in regularChildren)
-                {
-                    SetRandomPosition(child);
-                }
-
-                foreach (ChildAI childAi in bullies)
-                {
-                    if (bulliesActivated)
-                    {
-                        childAi.TargetPosition = player.transform.position;
-                    }
-                    else
-                    {
-                        SetRandomPosition(childAi);
-                    }
-                }
+                ActivateChildren();
             }
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.Return))
             {
                 OnKidScared(new KidScaredArgs());
+            }
+        }
+
+        private void ActivateChildren()
+        {
+            foreach (ChildAI child in regularChildren)
+            {
+                SetRandomPosition(child);
+            }
+
+            foreach (ChildAI childAi in bullies)
+            {
+                if (bulliesActivated)
+                {
+                    childAi.TargetPosition = player.transform.position;
+                }
+                else
+                {
+                    SetRandomPosition(childAi);
+                }
             }
         }
 
@@ -155,10 +165,15 @@ namespace Assets.Scripts.AI
         {
             Vector3 newTarget = new Vector3(Random.Range(movementBounds.min.x, movementBounds.max.x), 1f, Random.Range(movementBounds.min.z, movementBounds.max.z));
             NavMeshHit hit;
-            if (NavMesh.SamplePosition(newTarget, out hit, 1f, NavMesh.AllAreas))
+            float range = 0f;
+            do
             {
-                child.TargetPosition = hit.position;
-            }
+                range++;
+                if (NavMesh.SamplePosition(newTarget, out hit, range, NavMesh.AllAreas))
+                {
+                    child.TargetPosition = hit.position;
+                }
+            } while (!hit.hit);
         }
     }
 }
