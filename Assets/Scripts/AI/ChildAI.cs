@@ -18,8 +18,21 @@ namespace Assets.Scripts.AI
 
 		private NavMeshAgent navAgent;
         private EventManager eventManager = EventManager.Instance;
+        private Animator animator;
+        private ChildBehaviourEnum currentBehaviour;
 
-		public ChildBehaviourEnum Behaviour { get; set;} 
+        public ChildBehaviourEnum Behaviour
+        {
+            get { return currentBehaviour; }
+            set
+            {
+                if (value == ChildBehaviourEnum.Scared)
+                {
+                    animator.SetTrigger("Scared");
+                }
+                currentBehaviour = value;
+            }
+        }
 
         public Vector3 TargetPosition
         {
@@ -45,6 +58,7 @@ namespace Assets.Scripts.AI
         protected void Awake()
         {
             navAgent = GetComponent<NavMeshAgent>();
+            animator = GetComponentInChildren<Animator>();
         }
 
 		protected void Update()
