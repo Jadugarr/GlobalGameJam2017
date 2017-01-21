@@ -29,11 +29,7 @@ namespace Assets.Scripts.AI
             eventManager.RegisterForEvent(EventTypes.KidReachedDestination, OnKidReachedDestination);
             eventManager.RegisterForEvent(EventTypes.KidScared, OnKidScared);
             eventManager.RegisterForEvent(EventTypes.KidHitHazard, OnKidHitHazard);
-        }
-
-        private void Start()
-        {
-            ActivateChildren();
+            eventManager.RegisterForEvent(EventTypes.GameStart, OnGameStart);
         }
 
         void OnDestroy()
@@ -41,6 +37,7 @@ namespace Assets.Scripts.AI
             eventManager.RemoveFromEvent(EventTypes.KidReachedDestination, OnKidReachedDestination);
             eventManager.RemoveFromEvent(EventTypes.KidScared, OnKidScared);
             eventManager.RemoveFromEvent(EventTypes.KidHitHazard, OnKidHitHazard);
+            eventManager.RemoveFromEvent(EventTypes.GameStart, OnGameStart);
         }
 
         void Update()
@@ -59,6 +56,11 @@ namespace Assets.Scripts.AI
                     childAi.TargetPosition = player.transform.position;
                 }
             }
+        }
+
+        private void OnGameStart(IEvent evtArgs)
+        {
+            ActivateChildren();
         }
 
         private void CheckInput()
