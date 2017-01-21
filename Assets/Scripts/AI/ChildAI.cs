@@ -16,13 +16,8 @@ namespace Assets.Scripts.AI
             get { return targetPosition; }
             set
             {
-                NavMeshHit hit;
-
-                if (NavMesh.SamplePosition(value, out hit, 1f, NavMesh.AllAreas))
-                {
-                    targetPosition = hit.position;
-                    navAgent.SetDestination(targetPosition);
-                }
+                targetPosition = value;
+                navAgent.SetDestination(targetPosition);
             }
         }
 
@@ -48,6 +43,22 @@ namespace Assets.Scripts.AI
                     {
                         ChildAI = this
                     });
+                }
+            }
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.Equals(this.gameObject))
+            {
+                return;
+            }
+
+            if ((other.gameObject.CompareTag("Child") || other.gameObject.CompareTag("Player")))
+            {
+                if (targetPosition != Vector3.zero)
+                {
+                    navAgent.SetDestination(targetPosition);
                 }
             }
         }

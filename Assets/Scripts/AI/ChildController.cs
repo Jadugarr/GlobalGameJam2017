@@ -55,7 +55,11 @@ namespace Assets.Scripts.AI
         private void SetRandomPosition(ChildAI child)
         {
             Vector3 newTarget = new Vector3(Random.Range(movementBounds.min.x, movementBounds.max.x), 1f, Random.Range(movementBounds.min.z, movementBounds.max.z));
-            child.TargetPosition = newTarget;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(newTarget, out hit, 1f, NavMesh.AllAreas))
+            {
+                child.TargetPosition = hit.position;
+            }
         }
     }
 }

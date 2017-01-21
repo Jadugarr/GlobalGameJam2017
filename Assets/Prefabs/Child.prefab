@@ -20,14 +20,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4016035975747798}
   - component: {fileID: 33092082083792518}
-  - component: {fileID: 136151730792694996}
+  - component: {fileID: 136149224720296048}
   - component: {fileID: 23222993398341750}
   - component: {fileID: 54342586642928990}
   - component: {fileID: 195010431592720404}
   - component: {fileID: 114290042127342866}
   m_Layer: 0
   m_Name: Child
-  m_TagString: Untagged
+  m_TagString: Child
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,16 +109,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217fa0abe5e62614a9e677c5135b44b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &136151730792694996
+--- !u!136 &136149224720296048
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1304686840722548}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 1.64
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
