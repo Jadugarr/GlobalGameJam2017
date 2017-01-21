@@ -97,6 +97,11 @@ namespace Assets.Scripts.AI
             {
                 eventManager.FireEvent(EventTypes.SpawnChild, new SpawnChildArgs(ChildType.Bully));
             }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.F3))
+            {
+                eventManager.FireEvent(EventTypes.KidHitHazard, new KidHitHazardArgs(children[Random.Range(0, children.Count)], null));
+            }
         }
 
         private void OnChildSpawned(IEvent evtArgs)
