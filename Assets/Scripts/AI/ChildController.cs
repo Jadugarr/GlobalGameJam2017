@@ -121,11 +121,12 @@ namespace Assets.Scripts.AI
 			{
 				childAi.Behaviour = ChildBehaviourEnum.Scared;
 
+				// todo: make sure the position is within the play area
 				Vector3 newTarget = childAi.transform.position + 2f * (childAi.transform.position - player.transform.position);
 				newTarget.y = childAi.transform.position.y;
 
 			    args.ScaredKidAI.TargetPosition = FindNextPosOnNavMesh(newTarget);
-			}
+			}			
 
             ActivateBullies();
         }

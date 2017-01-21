@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: a87c98f377ce4db448df35d6df58c006
+timeCreated: 1485004936
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Red Fish
+  fontNames:
+  - Red Fish
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

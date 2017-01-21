@@ -39,7 +39,6 @@ namespace Assets.Scripts.AI
 		public bool IsScared( Transform playerTransform, float shoutStrength )
 		{
 			float distanceFallOff = 1f - Vector3.Distance (playerTransform.position, transform.position) / 6f;
-			Debug.Log(shoutStrength * distanceFallOff + ">" + ScareThreshold + "?");
 			return shoutStrength * distanceFallOff > ScareThreshold;
 		}
 
