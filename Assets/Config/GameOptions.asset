@@ -25,3 +25,5 @@ MonoBehaviour:
   ShoutHoldDuration: 0.5
   ShoutFadeoutDuration: 1
   ShoutCooldownDuration: 1
+  scaredSpeed: 7
+  defaultSpeed: 3.5

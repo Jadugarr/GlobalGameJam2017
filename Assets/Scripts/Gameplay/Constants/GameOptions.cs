@@ -47,6 +47,12 @@ namespace Gameplay.Constants
 
 		[SerializeField]
 		public float ShoutCooldownDuration = 2f;
+
+	    [SerializeField]
+        public float scaredSpeed;
+
+	    [SerializeField]
+        public float defaultSpeed;
 	}
 }
 

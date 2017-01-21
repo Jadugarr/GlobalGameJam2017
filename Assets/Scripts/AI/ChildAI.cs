@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using AI.Enums;
+using Gameplay.Managers;
 
 namespace Assets.Scripts.AI
 {
@@ -26,11 +27,21 @@ namespace Assets.Scripts.AI
             get { return currentBehaviour; }
             set
             {
-                if (value == ChildBehaviourEnum.Scared)
-                {
-                    animator.SetTrigger("Scared");
-                }
+                SetScared(value == ChildBehaviourEnum.Scared);
                 currentBehaviour = value;
+            }
+        }
+
+        private void SetScared(bool scared)
+        {
+            if (scared)
+            {
+                animator.SetTrigger("Scared");
+                navAgent.speed = ClassRoomManager.Instance.GameOptions.scaredSpeed;
+            }
+            else
+            {
+                navAgent.speed = ClassRoomManager.Instance.GameOptions.defaultSpeed;
             }
         }
 
