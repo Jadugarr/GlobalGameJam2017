@@ -49,14 +49,14 @@ namespace Input.Managers
                     Shout.EndShout();
                 }
 
-                //if (!Shout.IsShouting && !Shout.IsOnCooldown && UnityEngine.Input.GetButton (InputConstants.A_BUTTON)) 
-                //{
-                //	Shout.StartShout ();
-                //}
-                //else if (Shout.IsShouting && UnityEngine.Input.GetButtonUp (InputConstants.A_BUTTON)) 
-                //{
-                //	Shout.EndShout ();
-                //}
+                if (!Shout.IsShouting && !Shout.IsOnCooldown && UnityEngine.Input.GetButton(InputConstants.A_BUTTON))
+                {
+                    Shout.StartShout();
+                }
+                else if (Shout.IsShouting && UnityEngine.Input.GetButtonUp(InputConstants.A_BUTTON))
+                {
+                    Shout.EndShout();
+                }
 
                 if (Shout.IsShouting && ClassRoomManager.CurrentGameState == GameStateEnum.DoorOpen)
 				{

@@ -96,6 +96,8 @@ namespace Gameplay.Managers
 
 			PlayerMovement.Enabled = false;
 
+            eventManager.FireEvent(EventTypes.GameEnd, null);
+
             eventManager.RemoveFromEvent(EventTypes.PlayerHit, OnPlayerHit);
             eventManager.RemoveFromEvent(EventTypes.KidHitHazard, OnKidHit);
 

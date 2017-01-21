@@ -30,6 +30,7 @@ namespace Assets.Scripts.AI
             eventManager.RegisterForEvent(EventTypes.KidHitHazard, OnKidHitHazard);
             eventManager.RegisterForEvent(EventTypes.GameStart, OnGameStart);
             eventManager.RegisterForEvent(EventTypes.ChildSpawned, OnChildSpawned);
+            eventManager.RegisterForEvent(EventTypes.GameEnd, OnGameEnd);
         }
 
         void OnDestroy()
@@ -39,6 +40,7 @@ namespace Assets.Scripts.AI
             eventManager.RemoveFromEvent(EventTypes.KidHitHazard, OnKidHitHazard);
             eventManager.RemoveFromEvent(EventTypes.GameStart, OnGameStart);
             eventManager.RemoveFromEvent(EventTypes.ChildSpawned, OnChildSpawned);
+            eventManager.RemoveFromEvent(EventTypes.GameEnd, OnGameEnd);
         }
 
         void Update()
@@ -62,6 +64,21 @@ namespace Assets.Scripts.AI
         private void OnGameStart(IEvent evtArgs)
         {
             ActivateChildren();
+        }
+
+        private void OnGameEnd(IEvent evtArgs)
+        {
+            if (children.Count > 0)
+            {
+                ChildAI currentChild;
+
+                for (int i = children.Count-1; i >= 0; i--)
+                {
+                    currentChild = children[i];
+                    Destroy(currentChild.gameObject);
+                    children.Remove(currentChild);
+                }
+            }
         }
 
         private void CheckInput()
