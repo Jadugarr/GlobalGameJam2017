@@ -57,6 +57,9 @@ namespace Gameplay.Managers
 			doorRoutine = StartCoroutine (DoorRoutine());
 			clockRoutine = StartCoroutine (ClockRoutine());
 			PlayerMovement.Enabled = true;
+
+			// set camera
+			CameraManager.Instance.FollowPlayer (PlayerMovement.transform);
 		}
 
 		public void EndGame()
