@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -209,11 +209,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4153019638640602, guid: 88e48d64f68f99d4780076c0a1057e0d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -1.32
+      value: -2.25
       objectReference: {fileID: 0}
     - target: {fileID: 4153019638640602, guid: 88e48d64f68f99d4780076c0a1057e0d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.85
+      value: 2.51
       objectReference: {fileID: 0}
     - target: {fileID: 4153019638640602, guid: 88e48d64f68f99d4780076c0a1057e0d, type: 2}
       propertyPath: m_LocalPosition.z
@@ -238,22 +238,6 @@ Prefab:
     - target: {fileID: 4153019638640602, guid: 88e48d64f68f99d4780076c0a1057e0d, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4724685271308430, guid: 88e48d64f68f99d4780076c0a1057e0d, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 3.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4724685271308430, guid: 88e48d64f68f99d4780076c0a1057e0d, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4441315767491480, guid: 88e48d64f68f99d4780076c0a1057e0d, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -3.44
-      objectReference: {fileID: 0}
-    - target: {fileID: 4441315767491480, guid: 88e48d64f68f99d4780076c0a1057e0d, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 88e48d64f68f99d4780076c0a1057e0d, type: 2}
@@ -299,7 +283,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 19846696c5c49134ab57dabe19ea009f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2563,15 +2547,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4540530602827832, guid: 216774ef07c397b48a4fcf7779dc1c1a, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 1.007
+      value: 1.58
       objectReference: {fileID: 0}
     - target: {fileID: 4540530602827832, guid: 216774ef07c397b48a4fcf7779dc1c1a, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.285
+      value: 3.79
       objectReference: {fileID: 0}
     - target: {fileID: 4540530602827832, guid: 216774ef07c397b48a4fcf7779dc1c1a, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 9.75
+      value: 9.805
       objectReference: {fileID: 0}
     - target: {fileID: 4540530602827832, guid: 216774ef07c397b48a4fcf7779dc1c1a, type: 2}
       propertyPath: m_LocalRotation.x
@@ -3203,6 +3187,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 23325198642199760, guid: e5dbf2e1b8e86bb4895e2660d97872ee,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5866123a06b9e3a4b81efbb2c97be03b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e5dbf2e1b8e86bb4895e2660d97872ee, type: 2}
   m_IsPrefabParent: 0

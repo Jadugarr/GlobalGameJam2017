@@ -139,6 +139,10 @@ namespace Gameplay.Managers
 			CameraManager.Instance.LookAtClock ();
 			EndGame ();
 		}
+
+		public int RemainingTimeInSeconds{
+			get{return Mathf.RoundToInt (GameOptions.GameDuration -Time.realtimeSinceStartup - startTimeStamp);}
+		}
 		#endregion
 
 		#region Door
