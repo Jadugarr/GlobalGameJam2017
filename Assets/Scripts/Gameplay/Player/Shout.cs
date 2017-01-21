@@ -8,6 +8,9 @@ namespace Gameplay.Player
 {
 	public class Shout : MonoBehaviour
 	{
+		[SerializeField]
+		protected ParticleSystem ShockwaveParticles;
+
 		private float shoutHoldDuration;
 		private float shoutFadeoutDuration;
 		private float shoutCooldownDuration;
@@ -44,6 +47,12 @@ namespace Gameplay.Player
 					EndShout ();
 				}
 			}
+
+			// fix particle direction
+			//var particleRota = ShockwaveParticles.main.startRotationZ;
+			//particleRota.constant = transform.rotation.eulerAngles.y;
+			//ShockwaveParticles.main.startRotationZ = particleRota;
+			//ShockwaveParticles.startRotation3D = transform.rotation.eulerAngles;
 		}
 
 		public void StartShout()
@@ -53,6 +62,7 @@ namespace Gameplay.Player
 			{
 				shoutStrength = 1f;
 				startTimeStamp = Time.realtimeSinceStartup;
+				ShockwaveParticles.Play ();
 			}
 		}
 
@@ -67,6 +77,8 @@ namespace Gameplay.Player
 				cooldownTimeStamp = Time.realtimeSinceStartup + shoutCooldownDuration * heldDownFactor;
 
 				shoutStrength = 0f;
+
+				ShockwaveParticles.Stop ();
 			}
 		}
 
