@@ -8,7 +8,9 @@ public enum EventTypes
     KidReachedDestination,
     PlayerHit,
     KidScared,
-    GameStart
+    GameStart,
+    SpawnChild,
+    ChildSpawned
 }
 
 /// <summary>

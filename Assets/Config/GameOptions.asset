@@ -27,3 +27,5 @@ MonoBehaviour:
   ShoutCooldownDuration: 1
   scaredSpeed: 7
   defaultSpeed: 3.5
+  startingRegularChildren: 4
+  startingBullies: 2

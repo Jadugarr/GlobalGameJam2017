@@ -19,7 +19,6 @@ namespace Assets.Scripts.AI
         private bool bulliesActivated = false;
 
         private List<ChildAI> activeBullies = new List<ChildAI>(2);
-        private List<ChildAI> killedChildren = new List<ChildAI>(6);
         private List<ChildAI> children;
 
         private void Awake()
@@ -30,6 +29,7 @@ namespace Assets.Scripts.AI
             eventManager.RegisterForEvent(EventTypes.KidScared, OnKidScared);
             eventManager.RegisterForEvent(EventTypes.KidHitHazard, OnKidHitHazard);
             eventManager.RegisterForEvent(EventTypes.GameStart, OnGameStart);
+            eventManager.RegisterForEvent(EventTypes.ChildSpawned, OnChildSpawned);
         }
 
         void OnDestroy()
@@ -38,6 +38,7 @@ namespace Assets.Scripts.AI
             eventManager.RemoveFromEvent(EventTypes.KidScared, OnKidScared);
             eventManager.RemoveFromEvent(EventTypes.KidHitHazard, OnKidHitHazard);
             eventManager.RemoveFromEvent(EventTypes.GameStart, OnGameStart);
+            eventManager.RemoveFromEvent(EventTypes.ChildSpawned, OnChildSpawned);
         }
 
         void Update()
@@ -65,10 +66,28 @@ namespace Assets.Scripts.AI
 
         private void CheckInput()
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            //if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    ActivateChildren();
+            //}
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.F1))
             {
-                ActivateChildren();
+                eventManager.FireEvent(EventTypes.SpawnChild, new SpawnChildArgs(ChildType.Regular));
             }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.F2))
+            {
+                eventManager.FireEvent(EventTypes.SpawnChild, new SpawnChildArgs(ChildType.Bully));
+            }
+        }
+
+        private void OnChildSpawned(IEvent evtArgs)
+        {
+            ChildSpawnedArgs args = (ChildSpawnedArgs) evtArgs;
+
+            children.Add(args.ChildAi);
+            SetRandomPosition(args.ChildAi);
         }
 
         private void ActivateChildren()

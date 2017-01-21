@@ -47,7 +47,7 @@ namespace Gameplay.Managers
 
 			CameraManager.Instance.LookAtBlackBoard ( true );
 			CurrentGameState = GameStateEnum.BeforeGame;
-			initialKidCount = GameOptions.NumberOfKids;
+			initialKidCount = GameOptions.startingRegularChildren + GameOptions.startingBullies;
 		}
 
 		public void StartGame()
@@ -55,7 +55,7 @@ namespace Gameplay.Managers
 			// close door if it is still open
 			Door.CloseDoor();
 
-			currentKidCount = GameOptions.NumberOfKids;
+			currentKidCount = initialKidCount;
 			CurrentGameState = GameStateEnum.DoorClosed;
 			startTimeStamp = Time.realtimeSinceStartup;
 

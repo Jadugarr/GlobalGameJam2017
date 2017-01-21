@@ -1,14 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Gameplay.Constants
 {
 	[CreateAssetMenu(fileName="GameOptions", menuName="Config/GameOptions", order = 1)]
 	public class GameOptions : ScriptableObject
 	{
-		[SerializeField]
-		public int NumberOfKids = 10;
-
 		[SerializeField]
 		public float StartMinDelay = 10f;
 
@@ -53,6 +49,12 @@ namespace Gameplay.Constants
 
 	    [SerializeField]
         public float defaultSpeed;
+
+	    [SerializeField]
+        public int startingRegularChildren;
+
+	    [SerializeField]
+        public int startingBullies;
 	}
 }
 
