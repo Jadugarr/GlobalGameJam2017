@@ -9,9 +9,6 @@ namespace Assets.Scripts.AI
     public class ChildController : MonoBehaviour
     {
         [SerializeField]
-        private List<ChildAI> children;
-
-        [SerializeField]
         private MeshRenderer movementPlane;
 
         [SerializeField]
@@ -23,9 +20,11 @@ namespace Assets.Scripts.AI
 
         private List<ChildAI> activeBullies = new List<ChildAI>(2);
         private List<ChildAI> killedChildren = new List<ChildAI>(6);
+        private List<ChildAI> children;
 
         private void Awake()
         {
+            children = new List<ChildAI>(FindObjectsOfType<ChildAI>());
             movementBounds = movementPlane.bounds;
             eventManager.RegisterForEvent(EventTypes.KidReachedDestination, OnKidReachedDestination);
             eventManager.RegisterForEvent(EventTypes.KidScared, OnKidScared);
