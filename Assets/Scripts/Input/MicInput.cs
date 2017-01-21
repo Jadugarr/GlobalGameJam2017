@@ -7,8 +7,6 @@ namespace Assets.Scripts.Input
 
         public static float MicLoudness;
 
-        [SerializeField] public float CurrentMicLoudness;
-
         private string _device;
 
         //mic initialization
@@ -54,8 +52,6 @@ namespace Assets.Scripts.Input
             // levelMax equals to the highest normalized value power 2, a small number because < 1
             // pass the value to a static var so we can access it from anywhere
             MicLoudness = LevelMax();
-            CurrentMicLoudness = MicLoudness;
-            Debug.Log("MicLoudness: " + MicLoudness);
         }
 
         bool _isInitialized;
