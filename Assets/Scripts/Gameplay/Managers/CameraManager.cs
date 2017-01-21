@@ -18,6 +18,19 @@ namespace Gameplay.Managers
 		[SerializeField]
 		protected float Distance = 2f;
 
+		// targets:
+		[SerializeField]
+		protected Transform PlayerTarget;
+
+		[SerializeField]
+		protected Transform BlackBoardTarget;
+
+		[SerializeField]
+		protected Transform BlackBoardPosition;
+
+		[SerializeField]
+		protected Transform DoorTarget;
+
 		private Transform target;
 		private Vector3 cameraPosition;
 
@@ -35,13 +48,28 @@ namespace Gameplay.Managers
 			}
 		}
 
-		public void FollowPlayer(Transform targetPlayer)
+		public void FollowPlayer()
 		{
-			target = targetPlayer;
+			target = PlayerTarget;
 			isFollowingPlayer = true;
 		}
 
-		public void SetCameraPosition(Transform target, Vector3 cameraPosition)
+		public void LookAtBlackBoard( bool instant = false)
+		{
+			SetCameraPosition (BlackBoardTarget, BlackBoardPosition.position);
+			if(instant)
+			{
+				MainCamera.position = BlackBoardPosition.position;
+				MainCamera.rotation = Quaternion.LookRotation(BlackBoardTarget.position - MainCamera.position);
+			}
+		}
+
+		public void LookAtDoor()
+		{
+			SetCameraPosition (DoorTarget, MainCamera.position);
+		}
+
+		private void SetCameraPosition(Transform target, Vector3 cameraPosition)
 		{
 			this.target = target;
 			this.cameraPosition = cameraPosition;

@@ -3,6 +3,8 @@ using Gameplay.Movement;
 using Input.Constants;
 using UnityEngine;
 using Gameplay.Player;
+using Gameplay.Managers;
+using Gameplay.Enums;
 
 namespace Input.Managers
 {
@@ -14,17 +16,31 @@ namespace Input.Managers
 		protected PlayerMovement PlayerMovement;
 
 		[SerializeField]
+		protected ClassRoomManager ClassRoomManager;
+
+		[SerializeField]
 		protected Shout Shout;
 
 		protected void Update()
 		{
-			if (!Shout.IsShouting && !Shout.IsOnCooldown && UnityEngine.Input.GetButton (InputConstants.A_BUTTON)) 
+			if(ClassRoomManager.CurrentGameState == GameStateEnum.BeforeGame && UnityEngine.Input.GetButtonDown (InputConstants.A_BUTTON))
 			{
-				Shout.StartShout ();
+				ClassRoomManager.StartGame ();
 			}
-			else if (Shout.IsShouting && UnityEngine.Input.GetButtonUp (InputConstants.A_BUTTON)) 
+			else if(ClassRoomManager.CurrentGameState == GameStateEnum.GameEnd && UnityEngine.Input.GetButtonDown (InputConstants.A_BUTTON))
 			{
-				Shout.EndShout ();
+				ClassRoomManager.Init ();
+			}
+			else
+			{
+				if (!Shout.IsShouting && !Shout.IsOnCooldown && UnityEngine.Input.GetButton (InputConstants.A_BUTTON)) 
+				{
+					Shout.StartShout ();
+				}
+				else if (Shout.IsShouting && UnityEngine.Input.GetButtonUp (InputConstants.A_BUTTON)) 
+				{
+					Shout.EndShout ();
+				}
 			}
 		}
 

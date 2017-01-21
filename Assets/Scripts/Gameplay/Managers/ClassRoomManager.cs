@@ -35,16 +35,14 @@ namespace Gameplay.Managers
 		private Coroutine clockRoutine;
 		private float startTimeStamp;
 
-		protected override void Awake()
+		protected void Start()
 		{
-			base.Awake ();
-			// todo move to a betta position, mon
 			Init ();
-			StartGame ();
 		}
 
 		public void Init()
 		{
+			CameraManager.Instance.LookAtBlackBoard ( true );
 			CurrentGameState = GameStateEnum.BeforeGame;
 			initialKidCount = GameOptions.NumberOfKids;
 		}
@@ -60,7 +58,7 @@ namespace Gameplay.Managers
 			PlayerMovement.Enabled = true;
 
 			// set camera
-			CameraManager.Instance.FollowPlayer (PlayerMovement.transform);
+			CameraManager.Instance.FollowPlayer ();
 
             //Add event listeners
             eventManager.RegisterForEvent(EventTypes.PlayerHit, OnPlayerHit);
@@ -79,8 +77,11 @@ namespace Gameplay.Managers
 			StopCoroutine (clockRoutine);
 
 			PlayerMovement.Enabled = false;
+			CameraManager.Instance.LookAtBlackBoard ();
 
             eventManager.RemoveFromEvent(EventTypes.PlayerHit, OnPlayerHit);
+
+			bool isWinning = (currentKidCount == 0);
         }
 
 		public void KillKid()
@@ -131,6 +132,8 @@ namespace Gameplay.Managers
 				yield return new WaitForSeconds (time);
 
 				// open door
+				CameraManager.Instance.LookAtDoor ();
+
 				CurrentGameState = GameStateEnum.DoorOpen;
 				Door.OpenDoor ();
 
@@ -140,6 +143,8 @@ namespace Gameplay.Managers
 				// close door
 				CurrentGameState = GameStateEnum.DoorClosed;
 				Door.CloseDoor ();
+
+				CameraManager.Instance.FollowPlayer();
 			}
 		}
 

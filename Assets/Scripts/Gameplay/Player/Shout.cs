@@ -34,7 +34,7 @@ namespace Gameplay.Player
 
 		protected void OnTriggerStay(Collider other)
 		{
-			if(IsShouting && other.tag == TagConstants.Child/* enemy.ScareLevel < shoutStrength*/)
+			if(IsShouting && other.tag == TagConstants.Child)
 			{
 				eventManager.FireEvent (EventTypes.KidScared, 
 					new KidScaredArgs 
