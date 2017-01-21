@@ -22,10 +22,17 @@ namespace Gameplay.Movement
 		[SerializeField]
 		protected Transform CameraTransform;
 
+		[SerializeField]
+		protected ParticleSystem StunParticles;
+
 		// move and look
 		private Vector3 movementForce = Vector3.zero;
 		private Quaternion targetRotation;
 		private Quaternion lookDirection;
+
+		// stun
+		private bool isStunned = false;
+		private Coroutine stunRoutine;
 
 		public bool Enabled = false;
 
@@ -40,17 +47,45 @@ namespace Gameplay.Movement
 
 		protected void FixedUpdate()
 		{
-			if (!Enabled)
+			if (!CanMove)
 				return;
 			
 			Controller.Move (movementForce);
+		}
+
+		public bool CanMove{ get{return Enabled && !isStunned;}}
+		#endregion
+
+		#region Stun
+
+		public void Stun (float stunDuration)
+		{
+			if( stunRoutine != null)
+			{
+				StopCoroutine (stunRoutine);
+			}
+
+			stunRoutine = StartCoroutine(StunRoutine(stunDuration));
+		}
+
+		private IEnumerator StunRoutine( float stunDuration )
+		{
+			isStunned = true;
+			StunParticles.Play ();
+
+			yield return new WaitForSeconds (stunDuration);
+
+			isStunned = false;
+			StunParticles.Stop ();
+
+			stunRoutine = null;
 		}
 		#endregion
 
 		#region Input-controlled
 		public void Walk( float horizontal, float vertical )
 		{
-			if (!Enabled)
+			if (!CanMove)
 				return;
 			
 			// calculate speed
@@ -72,7 +107,7 @@ namespace Gameplay.Movement
 
 		public void Look( float horizontal, float vertical )
 		{
-			if (!Enabled)
+			if (!CanMove)
 				return;
 			
 			if (horizontal != 0 || vertical != 0) 
@@ -82,7 +117,12 @@ namespace Gameplay.Movement
 				{
 					targetAngle *= -1;
 				}
-				targetRotation = Quaternion.AngleAxis (targetAngle, Vector3.up);
+				// get cam direction
+				Vector3 cameraDirection = CameraTransform.rotation.eulerAngles;
+				cameraDirection.x = 0;
+				cameraDirection.z = 0;
+
+				targetRotation = Quaternion.Euler (cameraDirection) * Quaternion.AngleAxis (targetAngle, Vector3.up);
 			}
 
 			// slowly rotate towards the desired direction

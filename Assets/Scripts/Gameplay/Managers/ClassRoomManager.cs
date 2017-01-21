@@ -95,7 +95,7 @@ namespace Gameplay.Managers
 
 	    private void OnPlayerHit(IEvent evtArgs)
 	    {
-	        StartCoroutine(StunRoutine());
+			PlayerMovement.Stun (GameOptions.StunDuration);
 	    }
 
 		#region Clock
@@ -123,26 +123,21 @@ namespace Gameplay.Managers
 			{
 				// wait for sensei
 				float time = CurrentDoorDelay;
-				Debug.Log ("wait for sensei: " + time);
 				yield return new WaitForSeconds (time);
 
 				// play knock knock sound
 				Door.KnockKnock ();
 				time = CurrentTimeToOpenDoor;
-				Debug.Log ("wait for open: " + time);
 				yield return new WaitForSeconds (time);
 
 				// open door
-				Debug.Log ("open door");
 				CurrentGameState = GameStateEnum.DoorOpen;
 				Door.OpenDoor ();
 
 				time = CurrentTimeToCloseDoor;
-				Debug.Log ("wait for close: " + time);
 				yield return new WaitForSeconds (time);
 
 				// close door
-				Debug.Log ("close door");
 				CurrentGameState = GameStateEnum.DoorClosed;
 				Door.CloseDoor ();
 			}
@@ -169,24 +164,6 @@ namespace Gameplay.Managers
 			}
 		}
         #endregion
-
-	    #region Stun
-
-	    private IEnumerator StunRoutine()
-	    {
-	        float stunTimer = GameOptions.StunDuration;
-	        PlayerMovement.Enabled = false;
-
-	        while (stunTimer > 0f)
-	        {
-	            stunTimer -= Time.deltaTime;
-	            yield return 0;
-	        }
-
-	        PlayerMovement.Enabled = true;
-	    }
-
-	    #endregion
     }
 }
 

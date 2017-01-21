@@ -3,6 +3,9 @@ using UnityEngine;
 using Gameplay.Managers;
 using Gameplay.Constants;
 using UnityEngine.UI;
+using Common.Constants;
+using Assets.Scripts.Event;
+using Assets.Scripts.AI;
 
 namespace Gameplay.Player
 {
@@ -10,6 +13,8 @@ namespace Gameplay.Player
 	{
 		[SerializeField]
 		protected ParticleSystem ShockwaveParticles;
+
+		private EventManager eventManager = EventManager.Instance;
 
 		private float shoutHoldDuration;
 		private float shoutFadeoutDuration;
@@ -29,9 +34,15 @@ namespace Gameplay.Player
 
 		protected void OnTriggerStay(Collider other)
 		{
-			if(IsShouting/*other is enemy && enemy.ScareLevel < shoutStrength*/)
+			if(IsShouting && other.tag == TagConstants.Child/* enemy.ScareLevel < shoutStrength*/)
 			{
-				// todo
+				eventManager.FireEvent (EventTypes.KidScared, 
+					new KidScaredArgs 
+					{ 
+						ScaredKidAI = other.GetComponent<ChildAI> (),
+						ShoutStrength = shoutStrength
+					}
+				);
 			}
 		}
 
@@ -49,10 +60,10 @@ namespace Gameplay.Player
 			}
 
 			// fix particle direction
-			//var particleRota = ShockwaveParticles.main.startRotationZ;
-			//particleRota.constant = transform.rotation.eulerAngles.y;
-			//ShockwaveParticles.main.startRotationZ = particleRota;
-			//ShockwaveParticles.startRotation3D = transform.rotation.eulerAngles;
+			var particleRota = ShockwaveParticles.main.startRotationZ;
+			//particleRota.constant = -transform.rotation.eulerAngles.y;
+			//var mainEmitter = ShockwaveParticles.main;
+			//mainEmitter.startRotationZ = particleRota;
 		}
 
 		public void StartShout()

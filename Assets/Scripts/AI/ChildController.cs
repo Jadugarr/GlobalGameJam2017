@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Event;
 using UnityEngine;
 using UnityEngine.AI;
+using AI.Enums;
 
 namespace Assets.Scripts.AI
 {
@@ -43,6 +44,7 @@ namespace Assets.Scripts.AI
             CheckInput();
             UpdateBullies();
         }
+
 
         private void UpdateBullies()
         {
@@ -89,6 +91,7 @@ namespace Assets.Scripts.AI
 
             foreach (ChildAI childAi in bullies)
             {
+				childAi.Behaviour = ChildBehaviourEnum.Aggroed;
                 childAi.TargetPosition = player.transform.position;
             }
         }
@@ -105,6 +108,30 @@ namespace Assets.Scripts.AI
 
         private void OnKidScared(IEvent evtArgs)
         {
+			KidScaredArgs args = (KidScaredArgs)evtArgs;
+			ChildAI childAi = args.ScaredKidAI;
+			bool isScared = childAi.IsScared( player.transform, args.ShoutStrength);
+
+			if(isScared)
+			{
+				childAi.Behaviour = ChildBehaviourEnum.Scared;
+
+				Vector3 newTarget = childAi.transform.position + 1f * (childAi.transform.position - player.transform.position);
+				newTarget.y = childAi.transform.position.y;
+
+				NavMeshHit hit;
+				if (NavMesh.SamplePosition(newTarget, out hit, 1f, NavMesh.AllAreas))
+				{
+					args.ScaredKidAI.TargetPosition = hit.position;
+					Debug.Log ("kid scared:" + childAi.transform.position.x + ", " +childAi.transform.position.z + " -> " + newTarget.x + ", " + newTarget.z);
+				}
+				else
+				{
+					Debug.Log ("kid NOT scared:" + childAi.transform.position.x + ", " +childAi.transform.position.z + " -> " + newTarget.x + ", " + newTarget.z);
+
+				}
+			}
+
             ActivateBullies();
         }
 
