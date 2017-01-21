@@ -19,6 +19,9 @@ namespace Gameplay.Managers
 		[SerializeField]
 		protected float Distance = 2f;
 
+		[SerializeField]
+		protected float MaxAngle = 40f;
+
 		// targets:
 		[SerializeField]
 		protected Transform PlayerTarget;
@@ -74,6 +77,14 @@ namespace Gameplay.Managers
 		{
 			target = PlayerTarget;
 			isFollowingPlayer = true;
+
+			Vector3 camAngle = new Vector3 {
+				x = 50f,
+				y = 0f,
+				z = 0f
+			};
+
+			MainCamera.rotation = Quaternion.Euler ( camAngle );
 		}
 
 		public void LookAtBlackBoard( bool instant = false)
@@ -143,8 +154,32 @@ namespace Gameplay.Managers
 
 		private void Follow()
 		{
-			cameraPosition = TiltAxis.position + Distance * (TiltAxis.position - target.position).normalized;
-			MoveToTarget ();
+			cameraPosition = TiltAxis.position;
+			MainCamera.position = Vector3.Lerp (MainCamera.position, cameraPosition, Smoothing * Time.deltaTime);
+
+			Vector3 cameraToPlayerVec = target.position - MainCamera.position;
+			cameraToPlayerVec.y = 0;
+			float cameraToPlayerAngle = Vector3.Angle (Vector3.forward, cameraToPlayerVec);
+			if(target.position.x < MainCamera.position.x)
+			{
+				cameraToPlayerAngle *= -1;
+			}
+			cameraToPlayerAngle = Mathf.Clamp (cameraToPlayerAngle, -MaxAngle, MaxAngle);
+
+			Debug.Log (cameraToPlayerAngle);
+
+			Vector3 camAngle = new Vector3 {
+				x = MainCamera.rotation.eulerAngles.x,
+				y = cameraToPlayerAngle,
+				z = MainCamera.rotation.eulerAngles.z
+			};
+
+			MainCamera.rotation = Quaternion.Lerp ( MainCamera.rotation, Quaternion.Euler (camAngle), Smoothing * Time.deltaTime);
+
+			//MainCamera.Rotate (cameraToPlayerAngle * Vector3.up);
+
+			//cameraPosition = TiltAxis.position + Distance * (TiltAxis.position - target.position).normalized;
+			//MoveToTarget ();
 		}
 
 

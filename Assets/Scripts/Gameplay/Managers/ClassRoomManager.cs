@@ -43,11 +43,11 @@ namespace Gameplay.Managers
 
 		public void Init()
 		{
+			AudioManager.Instance.StartGameSound ();
+
 			CameraManager.Instance.LookAtBlackBoard ( true );
 			CurrentGameState = GameStateEnum.BeforeGame;
 			initialKidCount = GameOptions.NumberOfKids;
-
-			AudioManager.Instance.BeforeGameAtmosphere (true);
 		}
 
 		public void StartGame()
@@ -121,6 +121,8 @@ namespace Gameplay.Managers
 				passedTime = Time.realtimeSinceStartup - startTimeStamp;
 				Clock.SetTimeRatio ( passedTime / duration );
 			}
+
+			Clock.SetTimeRatio ( 1f );
 
 			AudioManager.Instance.Bell ();
 			CameraManager.Instance.LookAtClock ();

@@ -1,6 +1,7 @@
 ﻿using System;
 using Common;
 using UnityEngine;
+using System.Collections;
 
 namespace Gameplay.Managers
 {
@@ -27,6 +28,34 @@ namespace Gameplay.Managers
 		[SerializeField]
 		private AudioSource TeacherCaughtSound;
 
+		[SerializeField]
+		private AudioSource BeepSound;
+
+		private Coroutine startGameSoundRoutine;
+
+
+		public void StartGameSound()
+		{
+			startGameSoundRoutine = StartCoroutine (StartGameSoundRoutine ());
+		}
+
+		protected void OnDestroy()
+		{
+			StopAllCoroutines ();
+		}
+
+		private IEnumerator StartGameSoundRoutine()
+		{
+			TeacherCaughtSound.Stop ();
+			BellSound.Stop ();
+			Play (BeepSound);
+
+			yield return new WaitForSeconds (0.3f);
+
+			BeforeGameAtmosphere (true);
+			startGameSoundRoutine = null;
+		}
+
 		public void Chalk()
 		{
 			Play (ChalkSound);
@@ -35,6 +64,13 @@ namespace Gameplay.Managers
 		public void BeforeGameAtmosphere( bool enabled )
 		{
 			Play (BeforeGameAtmosphereSound, enabled);
+
+			// stop the possible time offset of this sound
+			if(!enabled && startGameSoundRoutine != null)
+			{
+				StopCoroutine (startGameSoundRoutine);
+				startGameSoundRoutine = null;
+			}
 		}
 
 		public void TeacherCaught()

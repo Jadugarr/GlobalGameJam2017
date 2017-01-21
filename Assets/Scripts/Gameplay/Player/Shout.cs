@@ -30,6 +30,13 @@ namespace Gameplay.Player
 			shoutHoldDuration = options.ShoutHoldDuration;
 			shoutFadeoutDuration = options.ShoutFadeoutDuration;
 			shoutCooldownDuration = options.ShoutCooldownDuration;
+
+			eventManager.RegisterForEvent(EventTypes.GameStart, OnGameStart);
+		}
+
+		protected void OnDestroy()
+		{
+			eventManager.RemoveFromEvent(EventTypes.GameStart, OnGameStart);
 		}
 
 		protected void OnTriggerStay(Collider other)
@@ -90,6 +97,11 @@ namespace Gameplay.Player
 				shoutStrength = 0f;
 				ShockwaveParticles.Stop ();
 			}
+		}
+
+		private void OnGameStart(IEvent evtArgs)
+		{
+			cooldownTimeStamp = Time.realtimeSinceStartup + shoutCooldownDuration;
 		}
 
 		public bool IsShouting{get{return shoutStrength > 0f;}}
