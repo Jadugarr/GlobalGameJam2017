@@ -174,8 +174,8 @@ namespace Assets.Scripts.AI
                 }
             }
 
-			Instantiate (SoulParticleTemplate);
-			SoulParticleTemplate.transform.position = args.ChildAi.transform.position;
+			GameObject soul = Instantiate (SoulParticleTemplate);
+			soul.transform.position = args.ChildAi.transform.position;
             Destroy(args.ChildAi.gameObject);
         }
 
