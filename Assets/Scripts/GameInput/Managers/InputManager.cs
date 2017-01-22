@@ -6,7 +6,9 @@ using UnityEngine;
 using Gameplay.Player;
 using Gameplay.Managers;
 using Gameplay.Enums;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace GameInput.Managers
 {
