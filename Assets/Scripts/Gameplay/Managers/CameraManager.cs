@@ -105,18 +105,15 @@ namespace Gameplay.Managers
 		private IEnumerator TeacherCaughtRoutine()
 		{
 			Vector3 camPos = TeacherPosition.position;
-			SetCameraPosition (TeacherTarget, camPos, true);
-			SetTilt (TeacherTilt1);
+			SetCameraPosition (TeacherTarget, camPos, true, TeacherTilt1);
 
 			yield return new WaitForSeconds (0.65f);
 			camPos = TeacherPosition.position + 0.33f * (TeacherTarget.position - TeacherPosition.position);
-			SetCameraPosition (TeacherTarget, camPos, true);
-			SetTilt (TeacherTilt2);
+			SetCameraPosition (TeacherTarget, camPos, true, TeacherTilt2);
 
 			yield return new WaitForSeconds (0.6f);
 			camPos = TeacherPosition.position + 0.63f * (TeacherTarget.position - TeacherPosition.position);
-			SetCameraPosition (TeacherTarget, camPos, true);
-			SetTilt (TeacherTilt3);
+			SetCameraPosition (TeacherTarget, camPos, true, TeacherTilt3);
 
 			yield return new WaitForSeconds (1.5f);
 		}
@@ -126,12 +123,7 @@ namespace Gameplay.Managers
 			SetCameraPosition (DoorTarget, MainCamera.position);
 		}
 
-		private void SetTilt( float tilt)
-		{
-			
-		}
-
-		private void SetCameraPosition(Transform target, Vector3 cameraPosition, bool instant = false)
+		private void SetCameraPosition(Transform target, Vector3 cameraPosition, bool instant = false, float tilt = 0f)
 		{
 			this.target = target;
 			this.cameraPosition = cameraPosition;
@@ -140,7 +132,17 @@ namespace Gameplay.Managers
 			if(instant)
 			{
 				MainCamera.position = cameraPosition;
-				MainCamera.rotation = Quaternion.LookRotation(target.position - MainCamera.position);
+				if( tilt == 0f)
+				{
+					MainCamera.rotation = Quaternion.LookRotation(target.position - MainCamera.position);
+
+				}
+				else
+				{
+					Vector3 euler = Quaternion.LookRotation (target.position - MainCamera.position).eulerAngles;
+					euler.z = tilt;
+					MainCamera.rotation = Quaternion.Euler (euler);
+				}
 			}
 		}
 
@@ -149,6 +151,13 @@ namespace Gameplay.Managers
 			MainCamera.position = Vector3.Lerp (MainCamera.position, cameraPosition, Smoothing * Time.deltaTime);
 
 			Quaternion newRot = Quaternion.LookRotation(target.position - MainCamera.position);
+			if(MainCamera.eulerAngles.z != 0f)
+			{
+				Vector3 euler = newRot.eulerAngles;
+				euler.z = MainCamera.eulerAngles.z;
+				newRot = Quaternion.Euler (euler);
+			}
+
 			MainCamera.rotation = Quaternion.Lerp ( MainCamera.rotation, newRot, Smoothing * Time.deltaTime);
 		}
 

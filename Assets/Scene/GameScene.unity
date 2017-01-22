@@ -1603,9 +1603,9 @@ MonoBehaviour:
   ClockTarget: {fileID: 1147555118}
   TeacherTarget: {fileID: 664831683}
   TeacherPosition: {fileID: 1899297938}
-  TeacherTilt1: 15
-  TeacherTilt2: -10
-  TeacherTilt3: 5
+  TeacherTilt1: 30
+  TeacherTilt2: -20
+  TeacherTilt3: 10
 --- !u!114 &997685154 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114196308800061118, guid: 9b4849e7645546341b96a2a53fc8c323,
@@ -3189,11 +3189,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 23325198642199760, guid: e5dbf2e1b8e86bb4895e2660d97872ee,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 5866123a06b9e3a4b81efbb2c97be03b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e5dbf2e1b8e86bb4895e2660d97872ee, type: 2}
   m_IsPrefabParent: 0

@@ -142,6 +142,8 @@ namespace Gameplay.Managers
 		#region Clock
 		private IEnumerator ClockRoutine()
 		{
+			Clock.SetTimeRatio ( 0f );
+
 			float duration = GameOptions.GameDuration;
 			float passedTime = 0;
 
