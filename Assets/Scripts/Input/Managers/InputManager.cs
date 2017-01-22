@@ -24,9 +24,6 @@ namespace Input.Managers
 
 	    private AudioClip microphoneRecording;
 
-	    void Awake()
-	    {
-	    }
 
 		protected void Update()
 		{
