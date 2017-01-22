@@ -3,6 +3,7 @@ using Assets.Scripts.Event;
 using UnityEngine;
 using UnityEngine.AI;
 using AI.Enums;
+using Gameplay.Managers;
 
 namespace Assets.Scripts.AI
 {
@@ -200,6 +201,8 @@ namespace Assets.Scripts.AI
                     {
                         DeactivateBully(childAi, ChildBehaviourEnum.Scared);
                     }
+
+                    AudioManager.Instance.PlayScaredSound();
                 }
                 ActivateBullies();
             }

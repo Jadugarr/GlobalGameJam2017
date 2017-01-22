@@ -51,6 +51,21 @@ namespace Gameplay.Managers
 	    [SerializeField]
         private AudioClip HighscoreMusic;
 
+	    [SerializeField]
+        private AudioSource ChildAudio;
+
+	    [SerializeField]
+        private AudioSource HazardSource;
+
+	    [SerializeField]
+        private AudioClip ChildScaredClip;
+
+        [SerializeField]
+        private AudioClip TrashCanClip;
+
+        [SerializeField]
+        private AudioClip WindowClip;
+
 
 		public void StartGameSound()
 		{
@@ -67,6 +82,24 @@ namespace Gameplay.Managers
 		{
 			StopAllCoroutines ();
 		}
+
+	    public void PlayTrashCanSound()
+	    {
+	        HazardSource.clip = TrashCanClip;
+            HazardSource.Play();
+	    }
+
+	    public void PlayWindowSound()
+	    {
+	        HazardSource.clip = WindowClip;
+            HazardSource.Play();
+	    }
+
+	    public void PlayScaredSound()
+	    {
+	        ChildAudio.clip = ChildScaredClip;
+            ChildAudio.Play();
+	    }
 
 	    public void PlayMenuMusic()
 	    {
