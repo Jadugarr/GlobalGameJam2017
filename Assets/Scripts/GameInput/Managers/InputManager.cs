@@ -1,13 +1,13 @@
-﻿using Assets.Scripts.Input;
+﻿using Assets.Scripts.GameInput;
 using Common;
+using GameInput.Constants;
 using Gameplay.Movement;
-using Input.Constants;
 using UnityEngine;
 using Gameplay.Player;
 using Gameplay.Managers;
 using Gameplay.Enums;
 
-namespace Input.Managers
+namespace GameInput.Managers
 {
 	public class InputManager : SingletonMonoBehaviour<InputManager>
 	{
@@ -22,9 +22,6 @@ namespace Input.Managers
 		[SerializeField]
 		protected Shout Shout;
 
-	    private AudioClip microphoneRecording;
-
-
 		protected void Update()
 		{
 			if(ClassRoomManager.CurrentGameState == GameStateEnum.BeforeGame && UnityEngine.Input.GetButtonDown (InputConstants.A_BUTTON))
@@ -37,6 +34,7 @@ namespace Input.Managers
 			}
 			else
 			{
+#if !UNITY_WEBGL
                 if (!Shout.IsShouting && !Shout.IsOnCooldown && MicInput.MicLoudness > 0.05f)
                 {
                     Shout.StartShout();
@@ -45,7 +43,7 @@ namespace Input.Managers
                 {
                     Shout.EndShout();
                 }
-
+#endif
                 if (!Shout.IsShouting && !Shout.IsOnCooldown && UnityEngine.Input.GetButton(InputConstants.A_BUTTON))
                 {
                     Shout.StartShout();

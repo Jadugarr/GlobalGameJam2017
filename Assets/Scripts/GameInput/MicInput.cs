@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Input
+namespace Assets.Scripts.GameInput
 {
     public class MicInput : MonoBehaviour
     {
-
+#if !UNITY_WEBGL
         public static float MicLoudness;
 
         private string _device;
@@ -26,7 +26,7 @@ namespace Assets.Scripts.Input
         int _sampleWindow = 128;
 
         //get data from microphone into audioclip
-        float LevelMax()
+        private float LevelMax()
         {
             float levelMax = 0;
             float[] waveData = new float[_sampleWindow];
@@ -97,5 +97,7 @@ namespace Assets.Scripts.Input
 
             }
         }
+        
+#endif
     }
 }

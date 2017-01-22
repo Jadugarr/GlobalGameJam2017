@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Input.Constants
+namespace GameInput.Constants
 {
 	public static class InputConstants
 	{
