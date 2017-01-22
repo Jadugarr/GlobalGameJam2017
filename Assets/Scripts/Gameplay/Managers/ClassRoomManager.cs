@@ -74,6 +74,7 @@ namespace Gameplay.Managers
 			PlayerMovement.Enabled = true;
 
 			AudioManager.Instance.BeforeGameAtmosphere (false);
+            AudioManager.Instance.PlayGameMusic();
 
 			// set camera
 			CameraManager.Instance.FollowPlayer ();
@@ -94,6 +95,7 @@ namespace Gameplay.Managers
 		public void CaughtByTeacher()
 		{
 			AudioManager.Instance.TeacherCaught();
+            AudioManager.Instance.PlayTeacherLostSound();
 			CameraManager.Instance.LookAtTeacherCaught ();
 			EndGame ();
 		}

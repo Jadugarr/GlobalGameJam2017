@@ -1,5 +1,4 @@
-﻿using System;
-using Common;
+﻿using Common;
 using UnityEngine;
 using System.Collections;
 
@@ -31,30 +30,73 @@ namespace Gameplay.Managers
 		[SerializeField]
 		private AudioSource BeepSound;
 
-		private Coroutine startGameSoundRoutine;
+	    [SerializeField]
+        private AudioSource TeacherSound;
+
+	    [SerializeField]
+        private AudioClip[] PossibleTeacherLookSounds;
+
+	    [SerializeField]
+        private AudioClip TeacherLostSound;
+
+	    [SerializeField]
+        private AudioSource GlobalSource;
+
+	    [SerializeField]
+        private AudioClip GameMusic;
+
+	    [SerializeField]
+        private AudioClip MenuMusic;
+
+	    [SerializeField]
+        private AudioClip HighscoreMusic;
 
 
 		public void StartGameSound()
 		{
-			startGameSoundRoutine = StartCoroutine (StartGameSoundRoutine ());
-		}
+            TeacherCaughtSound.Stop();
+            BellSound.Stop();
+            //Play (BeepSound);
+
+            //yield return new WaitForSeconds (0.3f);
+
+            BeforeGameAtmosphere(true);
+        }
 
 		protected void OnDestroy()
 		{
 			StopAllCoroutines ();
 		}
 
-		private IEnumerator StartGameSoundRoutine()
-		{
-			TeacherCaughtSound.Stop ();
-			BellSound.Stop ();
-			Play (BeepSound);
+	    public void PlayMenuMusic()
+	    {
+	        GlobalSource.clip = MenuMusic;
+            GlobalSource.Play();
+	    }
 
-			yield return new WaitForSeconds (0.3f);
+	    public void PlayGameMusic()
+	    {
+	        GlobalSource.clip = GameMusic;
+            GlobalSource.Play();
+	    }
 
-			BeforeGameAtmosphere (true);
-			startGameSoundRoutine = null;
-		}
+	    public void PlayHighScoreMusic()
+	    {
+	        GlobalSource.clip = HighscoreMusic;
+            GlobalSource.Play();
+	    }
+
+	    public void PlayTeacherLookSound()
+	    {
+	        TeacherSound.clip = PossibleTeacherLookSounds[Random.Range(0, PossibleTeacherLookSounds.Length)];
+            TeacherSound.Play();
+	    }
+
+	    public void PlayTeacherLostSound()
+	    {
+	        TeacherSound.clip = TeacherLostSound;
+            TeacherSound.Play();
+	    }
 
 		public void Chalk( bool enable)
 		{
@@ -63,14 +105,8 @@ namespace Gameplay.Managers
 
 		public void BeforeGameAtmosphere( bool enabled )
 		{
-			Play (BeforeGameAtmosphereSound, enabled);
-
-			// stop the possible time offset of this sound
-			if(!enabled && startGameSoundRoutine != null)
-			{
-				StopCoroutine (startGameSoundRoutine);
-				startGameSoundRoutine = null;
-			}
+		    GlobalSource.clip = MenuMusic;
+            GlobalSource.Play();
 		}
 
 		public void TeacherCaught()

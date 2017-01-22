@@ -16,6 +16,9 @@ namespace Gameplay.Furniture
 			// play open sound
 			AudioManager.Instance.OpenDoor ();
 
+            //play teacher sound
+            AudioManager.Instance.PlayTeacherLookSound();
+
 			// rotate door
 			Animator.SetTrigger ("Open");
 
