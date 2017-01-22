@@ -37,12 +37,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1023793379}
-  m_IndirectSpecularColor: {r: 0.4404579, g: 0.48905647, b: 0.56921166, a: 1}
+  m_IndirectSpecularColor: {r: 0.4404579, g: 0.48905665, b: 0.56921184, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 7
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
