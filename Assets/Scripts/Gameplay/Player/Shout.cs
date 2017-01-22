@@ -32,11 +32,13 @@ namespace Gameplay.Player
 			shoutCooldownDuration = options.ShoutCooldownDuration;
 
 			eventManager.RegisterForEvent(EventTypes.GameStart, OnGameStart);
+			eventManager.RegisterForEvent(EventTypes.PlayerHit, OnPlayerHit);
 		}
 
 		protected void OnDestroy()
 		{
 			eventManager.RemoveFromEvent(EventTypes.GameStart, OnGameStart);
+			eventManager.RemoveFromEvent(EventTypes.PlayerHit, OnPlayerHit);
 		}
 
 		protected void OnTriggerStay(Collider other)
@@ -102,6 +104,11 @@ namespace Gameplay.Player
 		private void OnGameStart(IEvent evtArgs)
 		{
 			cooldownTimeStamp = Time.realtimeSinceStartup + shoutCooldownDuration;
+		}
+
+		private void OnPlayerHit(IEvent evtArgs)
+		{
+			EndShout ();
 		}
 
 		public bool IsShouting{get{return shoutStrength > 0f;}}

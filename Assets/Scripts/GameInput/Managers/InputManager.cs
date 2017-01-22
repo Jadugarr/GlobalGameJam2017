@@ -34,30 +34,32 @@ namespace GameInput.Managers
 			}
 			else
 			{
-#if !UNITY_WEBGL
-                if (!Shout.IsShouting && !Shout.IsOnCooldown && MicInput.MicLoudness > 0.05f)
+				if (!Shout.IsShouting && !Shout.IsOnCooldown && PlayerMovement.CanMove && IsShouting)
                 {
                     Shout.StartShout();
                 }
-                else if (Shout.IsShouting && MicInput.MicLoudness <= 0.05f)
-                {
-                    Shout.EndShout();
-                }
-#endif
-                if (!Shout.IsShouting && !Shout.IsOnCooldown && UnityEngine.Input.GetButton(InputConstants.A_BUTTON))
-                {
-                    Shout.StartShout();
-                }
-                else if (Shout.IsShouting && UnityEngine.Input.GetButtonUp(InputConstants.A_BUTTON))
+				else if (Shout.IsShouting && !IsShouting)
                 {
                     Shout.EndShout();
                 }
 
-                if (Shout.IsShouting && ClassRoomManager.CurrentGameState == GameStateEnum.DoorOpen)
+				if (Shout.IsShouting && !Shout.IsOnCooldown && PlayerMovement.CanMove && ClassRoomManager.CurrentGameState == GameStateEnum.DoorOpen)
 				{
 					ClassRoomManager.CaughtByTeacher ();
 				}
 			}
+		}
+
+		private bool IsShouting
+		{
+			get{
+				bool shouting = UnityEngine.Input.GetButton (InputConstants.A_BUTTON);
+				#if !UNITY_WEBGL
+				shouting |= MicInput.MicLoudness > 0.05f;
+				#endif
+
+				return shouting;
+			} 
 		}
 
 
