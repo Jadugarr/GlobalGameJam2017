@@ -74,6 +74,7 @@ namespace Gameplay.Managers
 			PlayerMovement.Enabled = true;
 
 			AudioManager.Instance.BeforeGameAtmosphere (false);
+            AudioManager.Instance.PlayGameMusic();
 
 			// set camera
 			CameraManager.Instance.FollowPlayer ();

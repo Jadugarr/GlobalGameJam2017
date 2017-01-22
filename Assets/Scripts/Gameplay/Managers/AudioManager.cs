@@ -39,7 +39,17 @@ namespace Gameplay.Managers
 	    [SerializeField]
         private AudioClip TeacherLostSound;
 
-		private Coroutine startGameSoundRoutine;
+	    [SerializeField]
+        private AudioSource GlobalSource;
+
+	    [SerializeField]
+        private AudioClip GameMusic;
+
+	    [SerializeField]
+        private AudioClip MenuMusic;
+
+	    [SerializeField]
+        private AudioClip HighscoreMusic;
 
 
 		public void StartGameSound()
@@ -57,6 +67,24 @@ namespace Gameplay.Managers
 		{
 			StopAllCoroutines ();
 		}
+
+	    public void PlayMenuMusic()
+	    {
+	        GlobalSource.clip = MenuMusic;
+            GlobalSource.Play();
+	    }
+
+	    public void PlayGameMusic()
+	    {
+	        GlobalSource.clip = GameMusic;
+            GlobalSource.Play();
+	    }
+
+	    public void PlayHighScoreMusic()
+	    {
+	        GlobalSource.clip = HighscoreMusic;
+            GlobalSource.Play();
+	    }
 
 	    public void PlayTeacherLookSound()
 	    {
@@ -77,14 +105,8 @@ namespace Gameplay.Managers
 
 		public void BeforeGameAtmosphere( bool enabled )
 		{
-			Play (BeforeGameAtmosphereSound, enabled);
-
-			// stop the possible time offset of this sound
-			if(!enabled && startGameSoundRoutine != null)
-			{
-				StopCoroutine (startGameSoundRoutine);
-				startGameSoundRoutine = null;
-			}
+		    GlobalSource.clip = MenuMusic;
+            GlobalSource.Play();
 		}
 
 		public void TeacherCaught()
