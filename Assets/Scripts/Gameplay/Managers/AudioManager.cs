@@ -69,6 +69,9 @@ namespace Gameplay.Managers
         [SerializeField]
         private AudioClip ShelfSound;
 
+        [SerializeField]
+        private AudioSource SuccessSource;
+
 
         public void StartGameSound()
 		{
@@ -80,6 +83,11 @@ namespace Gameplay.Managers
 
             BeforeGameAtmosphere(true);
         }
+
+	    public void PlaySuccess()
+	    {
+	        SuccessSource.Play();
+	    }
 
 		protected void OnDestroy()
 		{

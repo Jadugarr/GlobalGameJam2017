@@ -139,25 +139,10 @@ namespace Gameplay.Managers
 		    if (currentKidCount <= 0)
 		    {
 		        EndGame();
-		        StartCoroutine(WinCutscene());
+		        ShowScore();
+                AudioManager.Instance.PlaySuccess();
 		    }
 		}
-
-        private IEnumerator WinCutscene()
-        {
-            float timer = GameOptions.WinCutsceneDuration;
-            Door.OpenDoor();
-            CameraManager.Instance.LookAtDoor();
-
-            while (timer >= 0)
-            {
-                timer -= Time.deltaTime;
-                yield return 0;
-            }
-
-            Door.CloseDoor();
-            CameraManager.Instance.LookAtBlackBoard();
-        }
 
         public float AliveKidRatio
 		{
