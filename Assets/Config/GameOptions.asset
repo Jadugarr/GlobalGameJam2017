@@ -28,3 +28,4 @@ MonoBehaviour:
   defaultSpeed: 3.5
   startingRegularChildren: 8
   startingBullies: 2
+  WinCutsceneDuration: 4
