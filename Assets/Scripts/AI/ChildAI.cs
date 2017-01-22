@@ -37,6 +37,7 @@ namespace Assets.Scripts.AI
             if (scared)
             {
                 animator.SetTrigger("Scared");
+				animator.SetBool ("Fleeing", true);
                 navAgent.speed = ClassRoomManager.Instance.GameOptions.scaredSpeed;
             }
             else
@@ -81,7 +82,8 @@ namespace Assets.Scripts.AI
                     eventManager.FireEvent(EventTypes.KidReachedDestination, new KidReachedDestinationArgs()
                     {
                         ChildAI = this
-                    });
+					});
+					animator.SetBool ("Fleeing", false);
                 }
             }
         }
