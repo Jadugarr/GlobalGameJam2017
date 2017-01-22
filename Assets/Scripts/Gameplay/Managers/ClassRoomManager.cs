@@ -163,7 +163,7 @@ namespace Gameplay.Managers
 		}
 
 		public int RemainingTimeInSeconds{
-			get{return Mathf.RoundToInt (GameOptions.GameDuration -Time.realtimeSinceStartup - startTimeStamp);}
+			get{return Mathf.RoundToInt (GameOptions.GameDuration -(Time.realtimeSinceStartup - startTimeStamp));}
 		}
 		#endregion
 
