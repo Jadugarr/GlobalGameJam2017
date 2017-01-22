@@ -14,6 +14,9 @@ namespace Assets.Scripts.AI
         [SerializeField]
         private GameObject player;
 
+		[SerializeField]
+		private GameObject SoulParticleTemplate;
+
         private Bounds movementBounds;
         private EventManager eventManager = EventManager.Instance;
         private bool bulliesActivated = false;
@@ -171,6 +174,8 @@ namespace Assets.Scripts.AI
                 }
             }
 
+			Instantiate (SoulParticleTemplate);
+			SoulParticleTemplate.transform.position = args.ChildAi.transform.position;
             Destroy(args.ChildAi.gameObject);
         }
 
