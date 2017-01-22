@@ -8,6 +8,9 @@ namespace Gameplay.Furniture
 		[SerializeField]
 		protected Animator Animator;
 
+		[SerializeField]
+		protected ParticleSystem AttentionParticle;
+
 		public void OpenDoor()
 		{
 			// play open sound
@@ -15,6 +18,8 @@ namespace Gameplay.Furniture
 
 			// rotate door
 			Animator.SetTrigger ("Open");
+
+			AttentionParticle.Play ();
 		}
 
 		public void CloseDoor()
