@@ -29,3 +29,5 @@ MonoBehaviour:
   startingRegularChildren: 8
   startingBullies: 2
   WinCutsceneDuration: 4
+  PointsPerKid: 300
+  PointsPerRemainingSecond: 100
