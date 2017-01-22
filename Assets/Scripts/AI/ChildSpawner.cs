@@ -11,6 +11,8 @@ namespace Assets.Scripts.AI
 
         [SerializeField] private GameObject regularChildTemplate;
 
+		[SerializeField] private GameObject girlChildTemplate;
+
         [SerializeField] private GameObject bullyTemplate;
 
         private EventManager eventManager = EventManager.Instance;
@@ -53,7 +55,14 @@ namespace Assets.Scripts.AI
 
             if (childType == ChildType.Regular)
             {
-                spawnedChild = GameObject.Instantiate(regularChildTemplate, spawnPoint, false);
+				if(UnityEngine.Random.value < 0.35f)
+				{
+					spawnedChild = GameObject.Instantiate(girlChildTemplate, spawnPoint, false);
+				}
+				else
+				{
+					spawnedChild = GameObject.Instantiate(regularChildTemplate, spawnPoint, false);
+				}
             }
             else
             {
