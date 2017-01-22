@@ -58,6 +58,12 @@ namespace Gameplay.Constants
 
 	    [SerializeField]
         public float WinCutsceneDuration;
+
+	    [SerializeField]
+        public int PointsPerKid;
+
+	    [SerializeField]
+        public int PointsPerRemainingSecond;
 	}
 }
 
