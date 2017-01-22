@@ -56,9 +56,9 @@ namespace Gameplay.Managers
 			startGameSoundRoutine = null;
 		}
 
-		public void Chalk()
+		public void Chalk( bool enable)
 		{
-			Play (ChalkSound);
+			Play (ChalkSound, enable);
 		}
 
 		public void BeforeGameAtmosphere( bool enabled )
