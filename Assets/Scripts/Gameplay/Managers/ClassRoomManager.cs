@@ -3,6 +3,7 @@ using Common;
 using UnityEngine;
 using Gameplay.Constants;
 using System.Collections;
+using Assets.Scripts.Event;
 using UnityEngine.Events;
 using Gameplay.Enums;
 using Gameplay.Furniture;
@@ -125,7 +126,7 @@ namespace Gameplay.Managers
 
 			PlayerMovement.Enabled = false;
 
-            eventManager.FireEvent(EventTypes.GameEnd, null);
+            eventManager.FireEvent(EventTypes.GameEnd, new GameEndArgs(currentKidCount == 0));
 
             eventManager.RemoveFromEvent(EventTypes.PlayerHit, OnPlayerHit);
             eventManager.RemoveFromEvent(EventTypes.KidHitHazard, OnKidHit);

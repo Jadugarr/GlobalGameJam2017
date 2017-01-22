@@ -66,8 +66,11 @@ namespace Gameplay.Managers
         [SerializeField]
         private AudioClip WindowClip;
 
+        [SerializeField]
+        private AudioClip ShelfSound;
 
-		public void StartGameSound()
+
+        public void StartGameSound()
 		{
             TeacherCaughtSound.Stop();
             BellSound.Stop();
@@ -87,15 +90,21 @@ namespace Gameplay.Managers
 	    {
 	        HazardSource.clip = TrashCanClip;
             HazardSource.Play();
-	    }
+        }
 
-	    public void PlayWindowSound()
-	    {
-	        HazardSource.clip = WindowClip;
+        public void PlayWindowSound()
+        {
+            HazardSource.clip = WindowClip;
             HazardSource.Play();
-	    }
+        }
 
-	    public void PlayScaredSound()
+        public void PlayShelfSound()
+        {
+            HazardSource.clip = ShelfSound;
+            HazardSource.Play();
+        }
+
+        public void PlayScaredSound()
 	    {
 	        ChildAudio.clip = ChildScaredClip;
             ChildAudio.Play();

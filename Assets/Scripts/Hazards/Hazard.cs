@@ -37,6 +37,10 @@ namespace Assets.Scripts.Hazards
                     {
                         AudioManager.Instance.PlayWindowSound();
                     }
+                    else if (HazardType == HazardType.Bookshelf)
+                    {
+                        AudioManager.Instance.PlayShelfSound();
+                    }
                 }
             }
         }

@@ -1343,6 +1343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a323f65c6a1d9e44854275a01dbd43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HazardType: 2
 --- !u!122 &122759760090184752
 Halo:
   m_ObjectHideFlags: 1

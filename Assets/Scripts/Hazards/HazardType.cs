@@ -3,6 +3,7 @@
     public enum HazardType
     {
         Trashcan,
-        Window
+        Window,
+        Bookshelf
     }
 }
