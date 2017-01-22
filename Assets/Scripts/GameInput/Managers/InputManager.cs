@@ -30,7 +30,11 @@ namespace GameInput.Managers
 			}
 			else if(ClassRoomManager.CurrentGameState == GameStateEnum.GameEnd && UnityEngine.Input.GetButtonDown (InputConstants.A_BUTTON))
 			{
-				ClassRoomManager.Init ();
+				ClassRoomManager.ShowScore ();
+			}
+			else if(ClassRoomManager.CurrentGameState == GameStateEnum.ScoreStart && UnityEngine.Input.GetButtonDown (InputConstants.A_BUTTON))
+			{
+				ClassRoomManager.SkipScore ();
 			}
 			else
 			{

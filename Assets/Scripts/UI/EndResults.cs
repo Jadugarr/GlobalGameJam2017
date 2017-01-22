@@ -27,7 +27,10 @@ namespace UI
 		private bool allShown;
 		private Color fadeColor = Color.black;
 
-		public void ShowResults( int currentScore)
+		public int currentScore {private get; set;}
+		public int highScore {private get; set;}
+
+		public void ShowResults()
 		{
 			allShown = false;
 			HighScoreText.text = "";
@@ -38,18 +41,11 @@ namespace UI
 			Fade.color = fadeColor;
 			Fade.gameObject.SetActive (true);
 
-			routine = StartCoroutine (ShowResultsRoutine(PlayerPrefs.GetInt ("HighScore", 0), currentScore));
+			routine = StartCoroutine (ShowResultsRoutine());
 		}
 
-		public void Hide()
-		{
-			Fade.gameObject.SetActive (false);
-			if(routine != null)
-			{
-				StopCoroutine (routine);
-				routine = null;
-			}
-		}
+		public bool IsFinished{get{return allShown;}}
+
 
 		public void Skip()
 		{
@@ -60,11 +56,40 @@ namespace UI
 					StopCoroutine (routine);
 					routine = null;
 					allShown = true;
+
+					HighScoreText.text = "HighScore: " + highScore;
+					CurrentScoreText.text = "Your Score: " + currentScore;
+					if(currentScore > highScore)
+					{
+						NewScoreText.text = "NEW HIGHSCORE!!!";
+					}
+					AudioManager.Instance.Chalk (false);
 				}
+			}
+			else
+			{
+
+				HighScoreText.text = "";
+				CurrentScoreText.text = "";
+				NewScoreText.text = "";
+				routine = StartCoroutine (FadeInRoutine());
 			}
 		}
 
-		private IEnumerator ShowResultsRoutine(int highscore, int currentScore)
+		private IEnumerator FadeInRoutine()
+		{
+			while(Fade.color.a > 0f)
+			{
+				fadeColor.a -= 0.01f;
+				Fade.color = fadeColor;
+
+				yield return null;
+			}
+			routine = null;
+			Fade.gameObject.SetActive (false);
+		}
+
+		private IEnumerator ShowResultsRoutine()
 		{
 			while(Fade.color.a < 1f)
 			{
@@ -75,7 +100,7 @@ namespace UI
 			}
 
 			AudioManager.Instance.Chalk (true);
-			string highscoreText = "HighScore: " + highscore;
+			string highscoreText = "HighScore: " + highScore;
 			for (int i = 0, len = highscoreText.Length; i < len; i++) 
 			{
 				HighScoreText.text += highscoreText [i];
@@ -89,7 +114,7 @@ namespace UI
 				yield return new WaitForSeconds (TEXT_SPEED);
 			}
 
-			if(currentScore > highscore)
+			if(currentScore > highScore)
 			{
 				yield return new WaitForSeconds (0.5f);
 

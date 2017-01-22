@@ -7,7 +7,8 @@ namespace Gameplay.Enums
 		BeforeGame,
 		DoorClosed,
 		DoorOpen,
-		GameEnd
+		GameEnd,
+		ScoreStart
 	}
 }
 

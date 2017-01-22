@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using Gameplay.Enums;
 using Gameplay.Furniture;
 using Gameplay.Movement;
+using UI;
 
 namespace Gameplay.Managers
 {
@@ -87,10 +88,26 @@ namespace Gameplay.Managers
 			eventManager.FireEvent (EventTypes.GameStart, null);
 		}
 
+		public void ShowScore ()
+		{
+			CurrentGameState = GameStateEnum.ScoreStart;
+			EndResults.Instance.ShowResults ();
+		}
+
+		public void SkipScore ()
+		{
+			if(EndResults.Instance.IsFinished)
+			{
+				Init ();
+			}
+			EndResults.Instance.Skip ();
+		}
+
 	    private void OnKidHit(IEvent evtArgs)
 	    {
 	        KillKid();
 	    }
+
 
 		public void CaughtByTeacher()
 		{

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Gameplay.Managers;
+using UI;
 
 namespace GamePlay.Furniture
 {
@@ -67,6 +68,9 @@ namespace GamePlay.Furniture
 		    points += (classRoomManager.RemainingTimeInSeconds * classRoomManager.GameOptions.PointsPerRemainingSecond);
 
 		    int currentHighscore = PlayerPrefs.GetInt("HighScore", 0);
+
+			EndResults.Instance.currentScore = points;
+			EndResults.Instance.highScore = currentHighscore;
 
 		    if (points > currentHighscore)
             {
