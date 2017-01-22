@@ -6,6 +6,7 @@ using UnityEngine;
 using Gameplay.Player;
 using Gameplay.Managers;
 using Gameplay.Enums;
+using UnityEditor;
 
 namespace GameInput.Managers
 {
@@ -24,6 +25,14 @@ namespace GameInput.Managers
 
 		protected void Update()
 		{
+		    if (Input.GetKeyDown(KeyCode.Escape))
+		    {
+#if UNITY_EDITOR
+                EditorApplication.isPlaying = false;
+#endif
+                Application.Quit();
+		    }
+
 			if(ClassRoomManager.CurrentGameState == GameStateEnum.BeforeGame && UnityEngine.Input.GetButtonDown (InputConstants.A_BUTTON))
 			{
 				ClassRoomManager.StartGame ();
