@@ -77,6 +77,11 @@ namespace Assets.Scripts.AI
                     currentChild = children[i];
                     Destroy(currentChild.gameObject);
                     children.Remove(currentChild);
+
+                    if (activeBullies.Contains(currentChild))
+                    {
+                        activeBullies.Remove(currentChild);
+                    }
                 }
             }
         }
@@ -159,6 +164,11 @@ namespace Assets.Scripts.AI
             if (children.Contains(args.ChildAi))
             {
                 children.Remove(args.ChildAi);
+
+                if (activeBullies.Contains(args.ChildAi))
+                {
+                    activeBullies.Remove(args.ChildAi);
+                }
             }
 
             Destroy(args.ChildAi.gameObject);
