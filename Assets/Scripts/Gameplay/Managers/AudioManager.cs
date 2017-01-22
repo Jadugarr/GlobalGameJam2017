@@ -1,5 +1,4 @@
-﻿using System;
-using Common;
+﻿using Common;
 using UnityEngine;
 using System.Collections;
 
@@ -31,30 +30,45 @@ namespace Gameplay.Managers
 		[SerializeField]
 		private AudioSource BeepSound;
 
+	    [SerializeField]
+        private AudioSource TeacherSound;
+
+	    [SerializeField]
+        private AudioClip[] PossibleTeacherLookSounds;
+
+	    [SerializeField]
+        private AudioClip TeacherLostSound;
+
 		private Coroutine startGameSoundRoutine;
 
 
 		public void StartGameSound()
 		{
-			startGameSoundRoutine = StartCoroutine (StartGameSoundRoutine ());
-		}
+            TeacherCaughtSound.Stop();
+            BellSound.Stop();
+            //Play (BeepSound);
+
+            //yield return new WaitForSeconds (0.3f);
+
+            BeforeGameAtmosphere(true);
+        }
 
 		protected void OnDestroy()
 		{
 			StopAllCoroutines ();
 		}
 
-		private IEnumerator StartGameSoundRoutine()
-		{
-			TeacherCaughtSound.Stop ();
-			BellSound.Stop ();
-			Play (BeepSound);
+	    public void PlayTeacherLookSound()
+	    {
+	        TeacherSound.clip = PossibleTeacherLookSounds[Random.Range(0, PossibleTeacherLookSounds.Length)];
+            TeacherSound.Play();
+	    }
 
-			yield return new WaitForSeconds (0.3f);
-
-			BeforeGameAtmosphere (true);
-			startGameSoundRoutine = null;
-		}
+	    public void PlayTeacherLostSound()
+	    {
+	        TeacherSound.clip = TeacherLostSound;
+            TeacherSound.Play();
+	    }
 
 		public void Chalk()
 		{

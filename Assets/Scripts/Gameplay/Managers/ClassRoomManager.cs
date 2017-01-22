@@ -94,6 +94,7 @@ namespace Gameplay.Managers
 		public void CaughtByTeacher()
 		{
 			AudioManager.Instance.TeacherCaught();
+            AudioManager.Instance.PlayTeacherLostSound();
 			CameraManager.Instance.LookAtTeacherCaught ();
 			EndGame ();
 		}
