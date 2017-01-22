@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Event;
 using UnityEngine;
 using Gameplay.Managers;
 using UI;
@@ -65,7 +66,10 @@ namespace GamePlay.Furniture
 
 		private void OnGameEnd(IEvent evtArgs)
 		{
-		    points += (classRoomManager.RemainingTimeInSeconds * classRoomManager.GameOptions.PointsPerRemainingSecond);
+		    if (((GameEndArgs)evtArgs).GameWon)
+            {
+                points += (classRoomManager.RemainingTimeInSeconds * classRoomManager.GameOptions.PointsPerRemainingSecond);
+            }
 
 		    int currentHighscore = PlayerPrefs.GetInt("HighScore", 0);
 
