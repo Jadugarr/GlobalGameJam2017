@@ -36,13 +36,23 @@ namespace Gameplay.Managers
 		private Coroutine clockRoutine;
 		private float startTimeStamp;
 
+		private Vector3 playerSpawnPoint;
+		private Quaternion playerSpawnRotation;
+
 		protected void Start()
 		{
+			// memorize player position
+			playerSpawnPoint = PlayerMovement.transform.position;
+			playerSpawnRotation = PlayerMovement.transform.rotation;
+
 			Init ();
 		}
 
 		public void Init()
 		{
+			PlayerMovement.transform.position = playerSpawnPoint;
+			PlayerMovement.transform.rotation = playerSpawnRotation;
+
 			AudioManager.Instance.StartGameSound ();
 
 			CameraManager.Instance.LookAtBlackBoard ( true );
